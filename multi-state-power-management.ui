@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>main</class>
+ <widget class="QWidget" name="main">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1497</width>
+    <height>866</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>main</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <widget class="QFrame" name="frame_5">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>660</y>
+     <width>1460</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="f5_title_label">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>10</y>
+      <width>151</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>典型板级电源模块故障诊断</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="f5_error_label">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>50</y>
+      <width>54</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>故障注入:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="f5_inductor_label">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>130</y>
+      <width>54</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>电感/mH</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f5_R6_button">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>40</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>R6</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f5_L1_button">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>40</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>L1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f5_C9_button">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>40</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>C9</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f5_R10_button">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>40</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>R10</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f5_C11_button">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>70</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>C11</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f5_C16_button">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>70</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>C16</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="f5_inductor_slider">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>130</y>
+      <width>261</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f5_start_button">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>80</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>运行</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>20</y>
+      <width>341</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout"/>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_4">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>460</y>
+     <width>1460</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="f4_title_label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>101</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>地面直流电源</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f4_source2_button">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>30</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>电源2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f4_source1_button">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>电源1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f4_source4_button">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>30</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>电源4</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f4_source3_button">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>30</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>电源3</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="f4_voltage_slider">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>70</y>
+      <width>261</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="f4_voltage_label">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>70</y>
+      <width>31</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>电压</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="f4_current_slider">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>110</y>
+      <width>261</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="f4_current_label">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>110</y>
+      <width>31</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>电流</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>260</y>
+     <width>1460</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="f3_title_label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>101</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>地面测控系统主机</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f3_task2_button">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>30</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>任务2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f3_task1_button">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>任务1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f3_task4_button">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>30</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>任务4</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f3_task3_button">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>30</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>任务3</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f3_wait_button">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>10</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>待机</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f3_start_button">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>70</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>快启</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f3_sleep_button">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>40</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>休眠</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f3_normal_button">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>100</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>正常</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>60</y>
+     <width>1460</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="f2_title_label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>101</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>测控系统模拟单元</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f2_task1_button">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>任务1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f2_task5_button">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>任务5</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f2_task4_button">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>30</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>任务4</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f2_task3_button">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>30</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>任务3</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f2_task2_button">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>30</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>任务2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f2_error2_button">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>60</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>故障2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f2_error1_button">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>60</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>故障1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f2_wait_button">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>10</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>待机</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f2_sleep_button">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>40</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>休眠</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f2_start_button">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>70</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>启动</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f2_search_button">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>100</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>搜索</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="f2_attack_button">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>130</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+    </property>
+    <property name="text">
+     <string>攻击</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_1">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>1460</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame, QLabel, QToolTip {
+	background-color: rgb(255, 255, 255)
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="f1_reset_button">
+    <property name="geometry">
+     <rect>
+      <x>1370</x>
+      <y>10</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>RESET</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="f1_title_label">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>10</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;FZHei-B01&quot;;</string>
+    </property>
+    <property name="text">
+     <string>多模式电源管理</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
