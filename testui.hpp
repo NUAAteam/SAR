@@ -9,6 +9,7 @@
 #ifndef TESTWVGVOQ_H
 #define TESTWVGVOQ_H
 
+#include "QtCore/qobject.h"
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFrame>
@@ -37,7 +38,23 @@ private:
   QWidget *verticalLayoutWidget;
   QVBoxLayout *f5_chart_layout;
 
+  // track previous button
+  QPushButton *prev_button = nullptr;
+
 public:
+  // on button click
+  void on_button_clicked(QPushButton *clicked_button) {
+    // set previous button to normal
+    if (prev_button != nullptr) {
+      prev_button->setStyleSheet("background-color: white");
+    }
+    // set current button to active
+    clicked_button->setStyleSheet("background-color: blue");
+    // set previous button to current clicked button
+    prev_button = clicked_button;
+  }
+
+  // setupUi
   void setupUi(QWidget *Form) {
     if (Form->objectName().isEmpty()) {
       Form->setObjectName(QString::fromUtf8("Form"));
@@ -66,66 +83,45 @@ public:
     f5_inductor_label->setObjectName(QString::fromUtf8("f5_inductor_label"));
     f5_inductor_label->setGeometry(QRect(10, 130, 54, 17));
 
-    f5_k2_button = new QPushButton(frame_5);
-    f5_k2_button->setObjectName(QString::fromUtf8("f5_k2_button"));
-    f5_k2_button->setGeometry(QRect(170, 40, 80, 25));
-    f5_k2_button->setStyleSheet(
-        QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
-                          "	background-color: rgb(255, 255, 255)\n"
-                          "}"));
-
     f5_k1_button = new QPushButton(frame_5);
     f5_k1_button->setObjectName(QString::fromUtf8("f5_k1_button"));
     f5_k1_button->setGeometry(QRect(80, 40, 80, 25));
-    f5_k1_button->setStyleSheet(
-        QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
-                          "	background-color: rgb(255, 255, 255)\n"
-                          "}"));
+    f5_k1_button->setStyleSheet("background-color: white");
 
-    f5_fun1_button = new QPushButton(frame_5);
-    f5_fun1_button->setObjectName(QString::fromUtf8("f5_fun1_button"));
-    f5_fun1_button->setGeometry(QRect(350, 40, 80, 25));
-    f5_fun1_button->setStyleSheet(
-        QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
-                          "	background-color: rgb(255, 255, 255)\n"
-                          "}"));
+    f5_k2_button = new QPushButton(frame_5);
+    f5_k2_button->setObjectName(QString::fromUtf8("f5_k2_button"));
+    f5_k2_button->setGeometry(QRect(170, 40, 80, 25));
+    f5_k2_button->setStyleSheet("background-color: white");
 
     f5_k3_button = new QPushButton(frame_5);
     f5_k3_button->setObjectName(QString::fromUtf8("f5_k3_button"));
     f5_k3_button->setGeometry(QRect(260, 40, 80, 25));
-    f5_k3_button->setStyleSheet(
-        QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
-                          "	background-color: rgb(255, 255, 255)\n"
-                          "}"));
+    f5_k3_button->setStyleSheet("background-color: white");
+
+    f5_fun1_button = new QPushButton(frame_5);
+    f5_fun1_button->setObjectName(QString::fromUtf8("f5_fun1_button"));
+    f5_fun1_button->setGeometry(QRect(350, 40, 80, 25));
+    f5_fun1_button->setStyleSheet("background-color: white");
 
     f5_fun2_button = new QPushButton(frame_5);
     f5_fun2_button->setObjectName(QString::fromUtf8("f5_fun2_button"));
     f5_fun2_button->setGeometry(QRect(80, 70, 80, 25));
-    f5_fun2_button->setStyleSheet(
-        QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
-                          "	background-color: rgb(255, 255, 255)\n"
-                          "}"));
+    f5_fun2_button->setStyleSheet("background-color: white");
 
     f5_fun3_button = new QPushButton(frame_5);
     f5_fun3_button->setObjectName(QString::fromUtf8("f5_fun3_button"));
     f5_fun3_button->setGeometry(QRect(170, 70, 80, 25));
-    f5_fun3_button->setStyleSheet(
-        QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
-                          "	background-color: rgb(255, 255, 255)\n"
-                          "}"));
+    f5_fun3_button->setStyleSheet("background-color: white");
+
+    f5_start_button = new QPushButton(frame_5);
+    f5_start_button->setObjectName(QString::fromUtf8("f5_start_button"));
+    f5_start_button->setGeometry(QRect(480, 80, 80, 25));
+    f5_start_button->setStyleSheet("background-color: white");
 
     f5_inductor_slider = new QSlider(frame_5);
     f5_inductor_slider->setObjectName(QString::fromUtf8("f5_inductor_slider"));
     f5_inductor_slider->setGeometry(QRect(80, 130, 261, 16));
     f5_inductor_slider->setOrientation(Qt::Horizontal);
-
-    f5_start_button = new QPushButton(frame_5);
-    f5_start_button->setObjectName(QString::fromUtf8("f5_start_button"));
-    f5_start_button->setGeometry(QRect(480, 80, 80, 25));
-    f5_start_button->setStyleSheet(
-        QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
-                          "	background-color: rgb(255, 255, 255)\n"
-                          "}"));
 
     verticalLayoutWidget = new QWidget(frame_5);
     verticalLayoutWidget->setObjectName(
@@ -139,8 +135,25 @@ public:
     retranslateUi(Form);
 
     QMetaObject::connectSlotsByName(Form);
+
+    // connect buttons to on_button_clicked
+    QObject::connect(f5_k1_button, &QPushButton::clicked,
+                     [=]() { on_button_clicked(f5_k1_button); });
+    QObject::connect(f5_k2_button, &QPushButton::clicked,
+                     [=]() { on_button_clicked(f5_k2_button); });
+    QObject::connect(f5_k3_button, &QPushButton::clicked,
+                     [=]() { on_button_clicked(f5_k3_button); });
+    QObject::connect(f5_fun1_button, &QPushButton::clicked,
+                     [=]() { on_button_clicked(f5_fun1_button); });
+    QObject::connect(f5_fun2_button, &QPushButton::clicked,
+                     [=]() { on_button_clicked(f5_fun2_button); });
+    QObject::connect(f5_fun3_button, &QPushButton::clicked,
+                     [=]() { on_button_clicked(f5_fun3_button); });
+    QObject::connect(f5_start_button, &QPushButton::clicked,
+                     [=]() { on_button_clicked(f5_start_button); });
   } // setupUi
 
+  // retranslateUi
   void retranslateUi(QWidget *Form) const {
     Form->setWindowTitle(QCoreApplication::translate("Form", "Form", nullptr));
     f5_title_label->setText(QCoreApplication::translate(
