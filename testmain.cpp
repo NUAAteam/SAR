@@ -7,6 +7,7 @@ int main(int argc, char *argv[]) {
   Ui_Form gui{};
   gui.setupUi(&window);
   window.show();
+  gui.updateChart();
 
   return QApplication::exec();
 }

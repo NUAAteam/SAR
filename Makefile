@@ -4,7 +4,7 @@ CFLAGS += -Wextra
 CFLAGS += -g
 CFLAGS += -I/usr/include/qt
 
-LDFLAGS += `pkg-config --libs Qt5Widgets`
+LDFLAGS += `pkg-config --libs Qt5Widgets Qt5Charts`
 
 TARGET = testmain
 OBJS = testmain.o

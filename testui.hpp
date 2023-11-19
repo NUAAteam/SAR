@@ -9,7 +9,10 @@
 #ifndef TESTWVGVOQ_H
 #define TESTWVGVOQ_H
 
+#include "QtCharts/qchartglobal.h"
 #include "QtCore/qobject.h"
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFrame>
@@ -19,10 +22,12 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
+QT_CHARTS_USE_NAMESPACE
 QT_BEGIN_NAMESPACE
 
 class Ui_Form {
 private:
+  // basic ui elements
   QFrame *frame_5;
   QLabel *f5_title_label;
   QLabel *f5_error_label;
@@ -41,7 +46,12 @@ private:
   // track previous button
   QPushButton *prev_button = nullptr;
 
-public:
+  // values for k_buttons o change
+  double k = 1.0;
+
+  // chartview
+  QChartView *chartView = nullptr;
+
   // on button click
   void on_button_clicked(QPushButton *clicked_button) {
     // set previous button to normal
@@ -52,6 +62,41 @@ public:
     clicked_button->setStyleSheet("background-color: blue");
     // set previous button to current clicked button
     prev_button = clicked_button;
+    updateChart();
+  }
+
+public:
+  // update chart
+  void updateChart() {
+    auto *series = new QLineSeries();
+    for (int xPoint = 0; xPoint <= f5_inductor_slider->value(); ++xPoint) {
+      double yPoint = k * xPoint * xPoint;
+      *series << QPointF(xPoint, yPoint);
+    }
+
+    auto *chart = new QChart();
+    chart->addSeries(series);
+    chart->createDefaultAxes();
+    chart->setTitle("y = k * x^2");
+
+    // Set the range of y values from 0 to the square of the slider's value
+    chart->axes(Qt::Vertical).first()->setRange(0, f5_inductor_slider->value());
+
+    // Set the range of x values from 0 to the slider's value
+    chart->axes(Qt::Horizontal)
+        .first()
+        ->setRange(0, f5_inductor_slider->value());
+
+    // remove previous chartView
+    if (chartView != nullptr) {
+      f5_chart_layout->removeWidget(chartView);
+      delete chartView;
+    }
+    // create new chartView
+    chartView = new QChartView(chart);
+    chartView->setSizePolicy(QSizePolicy::Expanding,
+                             QSizePolicy::Expanding); // Set the size policy
+    f5_chart_layout->addWidget(chartView);
   }
 
   // setupUi
@@ -122,6 +167,8 @@ public:
     f5_inductor_slider->setObjectName(QString::fromUtf8("f5_inductor_slider"));
     f5_inductor_slider->setGeometry(QRect(80, 130, 261, 16));
     f5_inductor_slider->setOrientation(Qt::Horizontal);
+    f5_inductor_slider->setMinimum(0);
+    f5_inductor_slider->setMaximum(10000);
 
     verticalLayoutWidget = new QWidget(frame_5);
     verticalLayoutWidget->setObjectName(
@@ -151,11 +198,15 @@ public:
                      [=]() { on_button_clicked(f5_fun3_button); });
     QObject::connect(f5_start_button, &QPushButton::clicked,
                      [=]() { on_button_clicked(f5_start_button); });
+    // connect slider to updateChart
+    QObject::connect(f5_inductor_slider, &QSlider::valueChanged,
+                     [=]() { updateChart(); });
   } // setupUi
 
   // retranslateUi
   void retranslateUi(QWidget *Form) const {
     Form->setWindowTitle(QCoreApplication::translate("Form", "Form", nullptr));
+
     f5_title_label->setText(QCoreApplication::translate(
         "Form",
         "\345\205\270\345\236\213\346\235\277\347\272\247\347\224\265\346\272"
@@ -166,11 +217,12 @@ public:
         "Form", "\346\225\205\351\232\234\346\263\250\345\205\245:", nullptr));
     f5_inductor_label->setText(QCoreApplication::translate(
         "Form", "\347\224\265\346\204\237/mH", nullptr));
-    f5_k2_button->setText(QCoreApplication::translate("Form", "k2", nullptr));
+
     f5_k1_button->setText(QCoreApplication::translate("Form", "k1", nullptr));
+    f5_k2_button->setText(QCoreApplication::translate("Form", "k2", nullptr));
+    f5_k3_button->setText(QCoreApplication::translate("Form", "k3", nullptr));
     f5_fun1_button->setText(
         QCoreApplication::translate("Form", "fun1", nullptr));
-    f5_k3_button->setText(QCoreApplication::translate("Form", "k3", nullptr));
     f5_fun2_button->setText(
         QCoreApplication::translate("Form", "fun2", nullptr));
     f5_fun3_button->setText(
