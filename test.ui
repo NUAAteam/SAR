@@ -220,7 +220,7 @@
       <height>181</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout"/>
+    <layout class="QVBoxLayout" name="f5_chart_layout"/>
    </widget>
   </widget>
  </widget>

@@ -1,13 +1,13 @@
 /********************************************************************************
-** Form generated from reading UI file 'testqGGiYD.ui'
+** Form generated from reading UI file 'testWVGvOQ.ui'
 **
 ** Created by: Qt User Interface Compiler version 5.15.11
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
 
-#ifndef TESTQGGIYD_H
-#define TESTQGGIYD_H
+#ifndef TESTWVGVOQ_H
+#define TESTWVGVOQ_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -21,7 +21,7 @@
 QT_BEGIN_NAMESPACE
 
 class Ui_Form {
-public:
+private:
   QFrame *frame_5;
   QLabel *f5_title_label;
   QLabel *f5_error_label;
@@ -35,12 +35,15 @@ public:
   QSlider *f5_inductor_slider;
   QPushButton *f5_start_button;
   QWidget *verticalLayoutWidget;
-  QVBoxLayout *verticalLayout;
+  QVBoxLayout *f5_chart_layout;
 
+public:
   void setupUi(QWidget *Form) {
-    if (Form->objectName().isEmpty())
+    if (Form->objectName().isEmpty()) {
       Form->setObjectName(QString::fromUtf8("Form"));
+    }
     Form->resize(914, 247);
+
     frame_5 = new QFrame(Form);
     frame_5->setObjectName(QString::fromUtf8("frame_5"));
     frame_5->setGeometry(QRect(0, 10, 911, 231));
@@ -50,15 +53,19 @@ public:
                           "}"));
     frame_5->setFrameShape(QFrame::StyledPanel);
     frame_5->setFrameShadow(QFrame::Raised);
+
     f5_title_label = new QLabel(frame_5);
     f5_title_label->setObjectName(QString::fromUtf8("f5_title_label"));
     f5_title_label->setGeometry(QRect(10, 10, 151, 17));
+
     f5_error_label = new QLabel(frame_5);
     f5_error_label->setObjectName(QString::fromUtf8("f5_error_label"));
     f5_error_label->setGeometry(QRect(10, 50, 54, 17));
+
     f5_inductor_label = new QLabel(frame_5);
     f5_inductor_label->setObjectName(QString::fromUtf8("f5_inductor_label"));
     f5_inductor_label->setGeometry(QRect(10, 130, 54, 17));
+
     f5_k2_button = new QPushButton(frame_5);
     f5_k2_button->setObjectName(QString::fromUtf8("f5_k2_button"));
     f5_k2_button->setGeometry(QRect(170, 40, 80, 25));
@@ -66,6 +73,7 @@ public:
         QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
                           "	background-color: rgb(255, 255, 255)\n"
                           "}"));
+
     f5_k1_button = new QPushButton(frame_5);
     f5_k1_button->setObjectName(QString::fromUtf8("f5_k1_button"));
     f5_k1_button->setGeometry(QRect(80, 40, 80, 25));
@@ -73,6 +81,7 @@ public:
         QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
                           "	background-color: rgb(255, 255, 255)\n"
                           "}"));
+
     f5_fun1_button = new QPushButton(frame_5);
     f5_fun1_button->setObjectName(QString::fromUtf8("f5_fun1_button"));
     f5_fun1_button->setGeometry(QRect(350, 40, 80, 25));
@@ -80,6 +89,7 @@ public:
         QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
                           "	background-color: rgb(255, 255, 255)\n"
                           "}"));
+
     f5_k3_button = new QPushButton(frame_5);
     f5_k3_button->setObjectName(QString::fromUtf8("f5_k3_button"));
     f5_k3_button->setGeometry(QRect(260, 40, 80, 25));
@@ -87,6 +97,7 @@ public:
         QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
                           "	background-color: rgb(255, 255, 255)\n"
                           "}"));
+
     f5_fun2_button = new QPushButton(frame_5);
     f5_fun2_button->setObjectName(QString::fromUtf8("f5_fun2_button"));
     f5_fun2_button->setGeometry(QRect(80, 70, 80, 25));
@@ -94,6 +105,7 @@ public:
         QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
                           "	background-color: rgb(255, 255, 255)\n"
                           "}"));
+
     f5_fun3_button = new QPushButton(frame_5);
     f5_fun3_button->setObjectName(QString::fromUtf8("f5_fun3_button"));
     f5_fun3_button->setGeometry(QRect(170, 70, 80, 25));
@@ -101,10 +113,12 @@ public:
         QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
                           "	background-color: rgb(255, 255, 255)\n"
                           "}"));
+
     f5_inductor_slider = new QSlider(frame_5);
     f5_inductor_slider->setObjectName(QString::fromUtf8("f5_inductor_slider"));
     f5_inductor_slider->setGeometry(QRect(80, 130, 261, 16));
     f5_inductor_slider->setOrientation(Qt::Horizontal);
+
     f5_start_button = new QPushButton(frame_5);
     f5_start_button->setObjectName(QString::fromUtf8("f5_start_button"));
     f5_start_button->setGeometry(QRect(480, 80, 80, 25));
@@ -112,20 +126,22 @@ public:
         QString::fromUtf8("QFrame, QLabel, QToolTip {\n"
                           "	background-color: rgb(255, 255, 255)\n"
                           "}"));
+
     verticalLayoutWidget = new QWidget(frame_5);
     verticalLayoutWidget->setObjectName(
         QString::fromUtf8("verticalLayoutWidget"));
     verticalLayoutWidget->setGeometry(QRect(570, 20, 311, 181));
-    verticalLayout = new QVBoxLayout(verticalLayoutWidget);
-    verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-    verticalLayout->setContentsMargins(0, 0, 0, 0);
+
+    f5_chart_layout = new QVBoxLayout(verticalLayoutWidget);
+    f5_chart_layout->setObjectName(QString::fromUtf8("f5_chart_layout"));
+    f5_chart_layout->setContentsMargins(0, 0, 0, 0);
 
     retranslateUi(Form);
 
     QMetaObject::connectSlotsByName(Form);
   } // setupUi
 
-  void retranslateUi(QWidget *Form) {
+  void retranslateUi(QWidget *Form) const {
     Form->setWindowTitle(QCoreApplication::translate("Form", "Form", nullptr));
     f5_title_label->setText(QCoreApplication::translate(
         "Form",
@@ -157,4 +173,4 @@ class Form : public Ui_Form {};
 
 QT_END_NAMESPACE
 
-#endif // TESTQGGIYD_H
+#endif // TESTWVGVOQ_H
