@@ -6,5 +6,6 @@
 		"TESTQGGIYD",
 		"testui",
 		"TESTWVGVOQ"
-	]
+	],
+	"python.analysis.typeCheckingMode": "basic"
 }

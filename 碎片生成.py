@@ -9,21 +9,21 @@ if __name__ =="__main__":
     打击中心点应该为(m/2,n/2)
     """
     # 总长度为 2*n ，总宽度为 2*m
-    m = eval(input("请输入需要的横向精度:"))
-    n = eval(input("请输入需要的纵向精度:"))
-    Hit = eval(input("请输入打击等级:"))
-    Res = eval(input("请输入目标材质等级:"))
+    m = int(input("请输入需要的横向精度:"))
+    n = int(input("请输入需要的纵向精度:"))
+    Hit = int(input("请输入打击等级:"))
+    Res = int(input("请输入目标材质等级:"))
 
     theta = Hit/Res
-    
+
     dm = 0.1
     dn = 0.1
     k = 1500
 
-    r_array = [[0 for i in range(m)] for j in range(n)]
-    R_distance2 = [[0 for i in range(m)] for j in range(n)]
-    p_array = [[0 for i in range(m)] for j in range(n)]
-    X_array = [[0 for i in range(m)] for j in range(n)]
+    #r_array = [[0 for i in range(m)] for j in range(n)]
+    #R_distance2 = [[0 for i in range(m)] for j in range(n)]
+    #p_array = [[0 for i in range(m)] for j in range(n)]
+    #X_array = [[0 for i in range(m)] for j in range(n)]
 
     for i in range(m):
         for j in range(n):
