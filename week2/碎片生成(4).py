@@ -11,10 +11,6 @@ async def test(i, n):
     print(f"任务{i}在{n}秒后继续执行")
 
 
-start_time = time.time()
-
-task_list = [test(R_distance2, 0.1), test( p_array, 0.1), test(X_array, 0.1)]
-loop = asyncio.get_event_loop()
 
 
 
@@ -49,6 +45,11 @@ if __name__ =="__main__":
     p_array = [[0.0 for _ in range(n)] for _ in range(m)]
     X_array = [[0.0 for _ in range(n)] for _ in range(m)]
 
+    start_time = time.time()
+
+    task_list = [test(R_distance2, 0.1), test( p_array, 0.1), test(X_array, 0.1)]
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(asyncio.gather(*task_list))
     for i in range(m):
         for j in range(n):
             R_distance2[i][j] = (dm*(i-(m-1)/2))**2+ (dn*(j-(n-1)/2))**2
