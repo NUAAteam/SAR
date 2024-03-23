@@ -80,7 +80,7 @@ if __name__ =="__main__":
         for j in range(n):
             if X_array[i][j] == 1:
                 plt.scatter(i , j , s = .5 ,color = 'b')
-            
+
 
     for i in range(m):
         for j in range(n):
@@ -94,7 +94,7 @@ if __name__ =="__main__":
                 s[i][j] = (math.erf((R_distance2zero - (math.sqrt(R_distance2[i][j])))/ math.sqrt(2) /theta))/2
             else:
                 s[i][j] = 0
-    
+
     for i in range(m):
         for j in range(n):
             if (s[i][j]) :
@@ -141,7 +141,7 @@ if __name__ =="__main__":
 
 
 
-          
+
 
 
 

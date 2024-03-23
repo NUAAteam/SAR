@@ -64,7 +64,7 @@ if __name__ =="__main__":
                 plt.scatter(i , j , s = .5 ,color = 'b')
 
     plt.show()
-          
+
 
 
 
