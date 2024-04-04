@@ -44,52 +44,52 @@ def a_b(s,theta):
 
 
 #首先不会调用文件，按照预想的应该有m,n,dm,dn,i,j之类，还有前面的那些数组进来，具体看下面标黄线的即可
-if __name__ == "__main__":
-    S_array = [[0.0 for _ in range(n)] for _ in range(m)]
-    a_array = [[0.0 for _ in range(n)] for _ in range(m)]
-    b_array = [[0.0 for _ in range(n)] for _ in range(m)]
-    for i in range(m):
-        for j in range(n):
-            if X_array[i][j] == 1:
-                s = S(i,j,dm,dn,m,n,theta)
-                a_array[i][j] = a_b(s,theta)
-                b_array[i][j] = s/(a_b(s,theta))
-                #生成四个点
-                #point1
-                x1 = i*dm-a_array[i][j]/2
-                y1 = random.uniform(j*dn-b_array[i][j]/2,j*dn+b_array[i][j]/2)
-                #point2
-                x2 = random.uniform(i*dm-a_array[i][j]/2,i*dm+a_array[i][j]/2)
-                y2 = j*dn-b_array[i][j]/2
-                #point3
-                x3 = i*dm+a_array[i][j]/2
-                y3 = random.uniform(j*dn-b_array[i][j]/2,j*dn+b_array[i][j]/2)
-                #point4
-                x4 = random.uniform(i*dm-a_array[i][j]/2,i*dm+a_array[i][j]/2)
-                y4 = j*dn+b_array[i][j]/2
 
-                #DDA算法line1
-                x,y = x1,y1
-                xEnd, yEnd = x2,y2
-                if xEnd < x:
-                    x,y, xEnd, yEnd = xEnd, yEnd, x, y
-                DDA(x, y, xEnd, yEnd)
-                #DDA算法line2
-                x,y = x2,y2
-                xEnd, yEnd = x3,y3
-                if xEnd < x:
-                    x,y, xEnd, yEnd = xEnd, yEnd, x, y
-                DDA(x, y, xEnd, yEnd)
-                #DDA算法line3
-                x,y = x3,y3
-                xEnd, yEnd = x4,y4
-                if xEnd < x:
-                    x,y, xEnd, yEnd = xEnd, yEnd, x, y
-                DDA(x, y, xEnd, yEnd)
-                #DDA算法line4
-                x,y = x4,y4
-                xEnd, yEnd = x1,y1
-                if xEnd < x:
-                    x,y, xEnd, yEnd = xEnd, yEnd, x, y
-                DDA(x, y, xEnd, yEnd)
+S_array = [[0.0 for _ in range(n)] for _ in range(m)]
+a_array = [[0.0 for _ in range(n)] for _ in range(m)]
+b_array = [[0.0 for _ in range(n)] for _ in range(m)]
+for i in range(m):
+    for j in range(n):
+        if X_array[i][j] == 1:
+            s = S(i,j,dm,dn,m,n,theta)
+            a_array[i][j] = a_b(s,theta)
+            b_array[i][j] = s/(a_b(s,theta))
+            #生成四个点
+            #point1
+            x1 = i*dm-a_array[i][j]/2
+            y1 = random.uniform(j*dn-b_array[i][j]/2,j*dn+b_array[i][j]/2)
+            #point2
+            x2 = random.uniform(i*dm-a_array[i][j]/2,i*dm+a_array[i][j]/2)
+            y2 = j*dn-b_array[i][j]/2
+            #point3
+            x3 = i*dm+a_array[i][j]/2
+            y3 = random.uniform(j*dn-b_array[i][j]/2,j*dn+b_array[i][j]/2)
+            #point4
+            x4 = random.uniform(i*dm-a_array[i][j]/2,i*dm+a_array[i][j]/2)
+            y4 = j*dn+b_array[i][j]/2
+
+            #DDA算法line1
+            x,y = x1,y1
+            xEnd, yEnd = x2,y2
+            if xEnd < x:
+                x,y, xEnd, yEnd = xEnd, yEnd, x, y
+            DDA(x, y, xEnd, yEnd)
+            #DDA算法line2
+            x,y = x2,y2
+            xEnd, yEnd = x3,y3
+            if xEnd < x:
+                x,y, xEnd, yEnd = xEnd, yEnd, x, y
+            DDA(x, y, xEnd, yEnd)
+            #DDA算法line3
+            x,y = x3,y3
+            xEnd, yEnd = x4,y4
+            if xEnd < x:
+                x,y, xEnd, yEnd = xEnd, yEnd, x, y
+            DDA(x, y, xEnd, yEnd)
+            #DDA算法line4
+            x,y = x4,y4
+            xEnd, yEnd = x1,y1
+            if xEnd < x:
+                x,y, xEnd, yEnd = xEnd, yEnd, x, y
+            DDA(x, y, xEnd, yEnd)
 

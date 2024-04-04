@@ -7,5 +7,6 @@
 		"testui",
 		"TESTWVGVOQ"
 	],
-	"python.analysis.typeCheckingMode": "basic"
+	"python.analysis.typeCheckingMode": "basic",
+	"python.analysis.extraPaths": ["./week2"]
 }
