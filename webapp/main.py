@@ -1,8 +1,8 @@
 from flask import Flask
 import sys
 sys.path.append("C:\\Users\\Lenovo\\Desktop\\SAR\\week1")
-from new import draw_many_points
-from new import draw_point
+from week3.draw import draw_many_points
+from week3.draw import draw_point
 import matplotlib.pyplot as plt
 from flask import send_file
 import asyncio

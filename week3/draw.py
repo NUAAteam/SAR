@@ -48,7 +48,6 @@ def draw_many_points(dm, dn, ic, jc, k, sigma):
                 y.append(i)  # Note that i is the y-coordinate
     fig = go.Figure(data=go.Scattergl(x=x, y=y, mode='markers',
                                       marker=dict(color='blue', size=2)))
-    fig.show()
-
-draw_many_points(dm, dn, ic, jc, k, sigma)
+    #fig.show()
+    return fig
 
