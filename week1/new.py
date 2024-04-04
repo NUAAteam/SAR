@@ -1,13 +1,7 @@
 import math
 import random
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 import numpy as np
-import asyncio
-
-import nest_asyncio
-nest_asyncio.apply()
-
-
 
 class Point:
     def __init__(self, i, j, ic, jc, k, sigma):
@@ -21,21 +15,15 @@ class Point:
         self.k = k
         self.sigma = sigma
 
-# 计算点到中心点的距离
+    # 计算点到中心点的距离
     def dist(self):
         return ((self.i-self.ic)**2 + (self.j-self.jc)**2)**0.5
-
-# 计算点的概率
+    # 计算点的概率
     def pab(self):
         return math.exp(-self.dist()**2/(self.k*self.sigma))
-
-# 计算点成为碎片点的状态，1为是，0为否
+    # 计算点成为碎片点的状态，1为是，0为否
     def status(self):
         return 1-int(random.random()+1-self.pab())
-
-# 图像大小
-width=10
-height=10
 
 # 间隔
 dn=1
@@ -49,23 +37,18 @@ jc=50
 k=500
 sigma=1
 
-async def draw_point(i, j, ic, jc, k, sigma):
-    p = Point(i, j, ic, jc, k, sigma)
-    if p.status() == 1:
-        plt.scatter(j, i, s= 1, color='b')  # Note that j is the x-coordinate and i is the y-coordinate
+def draw_many_points(dm, dn, ic, jc, k, sigma):
+    x = []
+    y = []
+    for i in np.arange(0, 100, dm):
+        for j in np.arange(0, 100, dn):
+            p = Point(i, j, ic, jc, k, sigma)
+            if p.status() == 1:
+                x.append(j)  # Note that j is the x-coordinate
+                y.append(i)  # Note that i is the y-coordinate
+    fig = go.Figure(data=go.Scattergl(x=x, y=y, mode='markers',
+                                      marker=dict(color='blue', size=2)))
+    fig.show()
 
-def draw_many_points(width,height,dm, dn, ic, jc, k, sigma, draw_point):
-  plt.figure(figsize=(width, height))
-  # Create and draw the points
-  loop = asyncio.get_event_loop()
-  tasks = []
-  for i in np.arange(0, 100, dm):
-    for j in np.arange(0, 100, dn):
-      task = loop.create_task(draw_point(i, j, ic, jc, k, sigma))
-      tasks.append(task)
-  loop.run_until_complete(asyncio.gather(*tasks))
-  # Show the picture
-  plt.show()
+draw_many_points(dm, dn, ic, jc, k, sigma)
 
-# Show the picture
-draw_many_points(width,height,dm, dn, ic, jc, k, sigma, draw_point)
