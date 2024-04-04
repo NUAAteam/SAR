@@ -8,5 +8,5 @@
 		"TESTWVGVOQ"
 	],
 	"python.analysis.typeCheckingMode": "basic",
-	"python.analysis.extraPaths": ["./week2"]
+	"python.analysis.extraPaths": ["./week2", "./week1"]
 }
