@@ -4,6 +4,7 @@ sys.path.append("C:\\Users\\Lenovo\\Desktop\\SAR\\week1")
 from new import draw_many_points
 from new import draw_point
 import matplotlib.pyplot as plt
+from flask import send_file
 import asyncio
 import nest_asyncio
 nest_asyncio.apply()
@@ -29,9 +30,13 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     return "Hello World!"
+
+@app.route("/draw")
 def draw():
   draw_many_points(width,height,dm, dn, ic, jc, k, sigma, draw_point)
-  pass
+  # Save the plot as a PNG image
+  plt.savefig('static/plot.png')
+  return send_file('static/plot.png', mimetype='image/png')
 
 
 @app.route("/status")
