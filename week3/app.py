@@ -8,6 +8,8 @@ import draw  # import the module
 app = dash.Dash(__name__)
 
 app.layout = html.Div([
+    html.H1("高分辨率 SAR 图像打击效果评估", style={'textAlign': 'center'}),
+    html.Label('dm:'),
     dcc.Slider(
         id='dm-slider',
         min=0.1,
@@ -15,6 +17,7 @@ app.layout = html.Div([
         step=0.1,
         value=1,
     ),
+    html.Label('dn:'),
     dcc.Slider(
         id='dn-slider',
         min=0.1,
@@ -22,6 +25,23 @@ app.layout = html.Div([
         step=0.1,
         value=1,
     ),
+    html.Label('ic:'),
+    dcc.Slider(
+        id='ic-slider',
+        min=0,
+        max=100,
+        step=10,
+        value=50,
+    ),
+    html.Label('jc:'),
+    dcc.Slider(
+        id='jc-slider',
+        min=0,
+        max=100,
+        step=10,
+        value=50,
+    ),
+    html.Label('k:'),
     dcc.Slider(
         id='k-slider',
         min=100,
@@ -29,6 +49,7 @@ app.layout = html.Div([
         step=100,
         value=500,
     ),
+    html.Label('sigma:'),
     dcc.Slider(
         id='sigma-slider',
         min=1,
@@ -45,12 +66,12 @@ app.layout = html.Div([
     Output('graph', 'figure'),
     [Input('dm-slider', 'value'),
      Input('dn-slider', 'value'),
+     Input('ic-slider', 'value'),
+     Input('jc-slider', 'value'),
      Input('k-slider', 'value'),
      Input('sigma-slider', 'value')]
 )
-def update_figure(dm, dn, k, sigma):
-    ic = 50
-    jc = 50
+def update_figure(dm, dn, ic, jc, k, sigma):
     fig = draw.draw_many_points(dm, dn, ic, jc, k, sigma)
     return fig
 
