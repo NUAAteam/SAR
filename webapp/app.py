@@ -1,15 +1,10 @@
 from flask import Flask, render_template
-from bokeh.embed import components
-from bokeh.plotting import figure
-
 app = Flask(__name__)
 
-@app.route('/')
+@app.route("/")
 def home():
-    plot = figure()
-    # Add your plot code here
-    script, div = components(plot)
-    return render_template('plot.html', script=script, div=div)
+    return render_template("index.html")
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=3000)

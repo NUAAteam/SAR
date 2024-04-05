@@ -3,7 +3,7 @@
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
-import draw  # import the module
+import draw  # import my module
 
 app = dash.Dash(__name__)
 
