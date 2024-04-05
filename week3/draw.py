@@ -55,15 +55,7 @@ def draw_many_splinter(dm, dn, ic, jc, k, sigma):
         for j in np.arange(0, 100, dn):
             p = Point(i, j, ic, jc, k, sigma)
             if p.status() == 1:
-               # x1 = i-dm/2
-               # y1 = random.uniform(j-dn/2,j+dn/2)
-               # x2 = random.uniform(i-dm/2,i+dm/2)
-               # y2 = j-dn/2
-               # x3 = i+dm/2
-               # y3 = random.uniform(j-dn/2,j+dn/2)
-               # x4 = random.uniform(i-dm/2,i+dm/2)
-               # y4 = j+dn/2
-                a=p.area()**(1/2)
+                a=random.normalvariate(p.area()**(1/2), p.sigma/2)
                 x1 = i-a/2
                 y1 = random.uniform(j-a/2,j+a/2)
                 x3 = i+a/2

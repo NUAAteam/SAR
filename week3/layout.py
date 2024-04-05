@@ -8,7 +8,7 @@ html.Div([
         dcc.Slider(
             id='dm-slider',
             min=0.1,
-            max=1,
+            max=2,
             step=0.1,
             value=1,
         ),
@@ -16,7 +16,7 @@ html.Div([
         dcc.Slider(
             id='dn-slider',
             min=0.1,
-            max=1,
+            max=2,
             step=0.1,
             value=1,
         ),
@@ -48,8 +48,8 @@ html.Div([
         dcc.Slider(
         id='sigma-slider',
         min=1,
-        max=10,
-        step=1,
+        max=3,
+        step=0.1,
         value=1,
         ),
         dcc.Graph(id='graph'),
