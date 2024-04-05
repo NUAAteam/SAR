@@ -49,5 +49,14 @@ def draw_many_points(dm, dn, ic, jc, k, sigma):
     fig = go.Figure(data=go.Scattergl(x=x, y=y, mode='markers',
                                       marker=dict(color='blue', size=2)))
     #fig.show()
+    fig.update_layout(
+        autosize=False,
+        width=500,
+        height=500,
+        xaxis=dict(
+            scaleanchor="y",
+            scaleratio=1,
+        ),
+    )
     return fig
 

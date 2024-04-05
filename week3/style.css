@@ -5,10 +5,9 @@ h1 {
 	color: white;
 	background-color: #61b3e7;
 }
-h1:hover {
-	color: #61b3e7;
-	background-color: #e6e8fa;
-	transition: all 500ms ease-in-out;
+h1.clicked {
+	color: navy;
+	background-color: lightgray;
 }
 h2 {
 	color: cadetblue;
