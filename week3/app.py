@@ -20,7 +20,7 @@ app.layout = eval(layout)
      Input('sigma-slider', 'value')]
 )
 def update_figure(dm, dn, ic, jc, k, sigma):
-    fig = draw.draw_many_points(dm, dn, ic, jc, k, sigma)
+    fig = draw.draw_many_splinter(dm, dn, ic, jc, k, sigma)
     return fig
 
 if __name__ == '__main__':
