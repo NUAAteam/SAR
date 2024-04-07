@@ -55,7 +55,10 @@ def draw_many_splinter(dm, dn, ic, jc, k, sigma):
         for j in np.arange(0, 100, dn):
             p = Point(i, j, ic, jc, k, sigma)
             if p.status() == 1:
-                a=random.normalvariate(p.area()**(1/2), p.sigma/2)
+                area=p.area()
+                if area<=0:
+                    area=0.0001
+                a=random.normalvariate(area**(1/2), p.sigma/2)
                 x1 = i-a/2
                 y1 = random.uniform(j-a/2,j+a/2)
                 x3 = i+a/2
@@ -67,8 +70,10 @@ def draw_many_splinter(dm, dn, ic, jc, k, sigma):
                 y4 = j+a/2
                 x.extend([x1, x2, x3, x4, x1, None])
                 y.extend([y1, y2, y3, y4, y1, None])
-    fig = go.Figure(data=go.Scattergl(x=x, y=y, mode='lines',
-                                      line=dict(color='blue', width=1)))
+    fig = go.Figure(data=go.Scatter(x=x, y=y, mode='lines',
+                                line=dict(color='rgb(127,127,127)', width=1),
+                                fill='toself',
+                                fillcolor='rgb(127, 127, 127)'))
 #碎片内部灰度值为均匀分布U(m,n)的结果，碎片是实心的
 #v = 150*sigma/dist()
 #m=原灰度-v

@@ -1,4 +1,9 @@
 # app.py
+import cv2
+import numpy as np
+import plotly.graph_objs as go
+import io
+
 
 import dash
 from dash import dcc, html
@@ -21,6 +26,9 @@ app.layout = eval(layout)
 )
 def update_figure(dm, dn, ic, jc, k, sigma):
     fig = draw.draw_many_splinter(dm, dn, ic, jc, k, sigma)
+    # Convert the figure to an image
+    fig.write_image('temp.png')
+
     return fig
 
 if __name__ == '__main__':
