@@ -31,5 +31,8 @@ def update_figure(dm, dn, ic, jc, k, sigma):
 
     return fig
 
+#opencv read image
+
+
 if __name__ == '__main__':
     app.run_server(debug=True,host="0.0.0.0",port=5000)

@@ -28,7 +28,7 @@ class Point:
     def area(self):
         return random.normalvariate(self.dist(), self.sigma)
     def gray(self):
-        v= int(150*self.sigma/(self.dist()+0.0001))
+        v= int(200*self.sigma**2/(self.dist()+0.00001))
         if v>=127:
             v=127
         return v
