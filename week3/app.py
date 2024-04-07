@@ -27,7 +27,7 @@ app.layout = eval(layout)
 def update_figure(dm, dn, ic, jc, k, sigma):
     fig = draw.draw_many_splinter(dm, dn, ic, jc, k, sigma)
     # Convert the figure to an image
-    fig.write_image('temp.png')
+    #fig.write_image('temp.png')
 
     return fig
 
