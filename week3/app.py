@@ -15,6 +15,8 @@ app = dash.Dash(__name__)
 
 app.layout = eval(layout)
 
+#todo1: 读入图像数据
+#todo2: 转换为SAR图像
 @app.callback(
     Output('graph', 'figure'),
     [Input('dm-slider', 'value'),
@@ -25,6 +27,7 @@ app.layout = eval(layout)
      Input('sigma-slider', 'value')]
 )
 def update_figure(dm, dn, ic, jc, k, sigma):
+#todo1：图像与碎片融合
     fig = draw.draw_many_splinter(dm, dn, ic, jc, k, sigma)
     # Convert the figure to an image
     #fig.write_image('temp.png')
