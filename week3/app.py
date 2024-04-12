@@ -16,6 +16,7 @@ app = dash.Dash(__name__)
 app.layout = eval(layout)
 
 #todo1: 读入图像数据
+picture=cv2.imread('week3\\assets\\nuaa_sar.jpg',cv2.IMREAD_GRAYSCALE)
 #todo2: 转换为SAR图像
 @app.callback(
     Output('graph', 'figure'),
@@ -28,7 +29,7 @@ app.layout = eval(layout)
 )
 def update_figure(dm, dn, ic, jc, k, sigma):
 #todo1：图像与碎片融合
-    fig = draw.draw_many_splinter(dm, dn, ic, jc, k, sigma)
+    fig = draw.draw_many_splinter(dm, dn, ic, jc, k, sigma, picture)
     # Convert the figure to an image
     #fig.write_image('temp.png')
 

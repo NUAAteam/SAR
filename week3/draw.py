@@ -48,7 +48,7 @@ jc=50
 k=500
 sigma=1
 
-def draw_many_splinter(dm, dn, ic, jc, k, sigma):
+def draw_many_splinter(dm, dn, ic, jc, k, sigma,picture):
     data=[]
 #假设碎片的长宽比为1：1
 #碎片中心点为i，j
@@ -56,9 +56,13 @@ def draw_many_splinter(dm, dn, ic, jc, k, sigma):
 #在碎片的每个边上随机选取 1 个点，得到四个随机点
 #采用计算机图形学中的数值微分直线生成法连接四个点，得到一个碎片
 #生成所有碎片
+
+# 融合picture与碎片
+# 方法： 取图像中i,j点的灰度值，然后加减碎片的灰度变动幅度
     for i in np.arange(0, 100, dm):
         for j in np.arange(0, 100, dn):
             p = Point(i, j, ic, jc, k, sigma)
+            # 取图像中i,j点的灰度值
             if p.status() == 1:
                 area=p.area()
                 if area<=0:
@@ -81,8 +85,10 @@ def draw_many_splinter(dm, dn, ic, jc, k, sigma):
                 #重点就是要把这个127换成实际的从图像中读取的灰度值
                 #TODO 从图像中读取灰度值
                 # 可能的办法：1. 读取图像，2. 传递图像数据给draw.py 3. 从图像数据中获取灰度值 4. 用灰度值替换127
-                m = 127 - p.gray()
-                n = 127 + p.gray()
+                # 取图像中i,j点的灰度值
+                gray_pic = picture[int(i), int(j)]
+                m = gray_pic - p.gray()
+                n = gray_pic + p.gray()
                 gray_value = random.randint(m, n)
                 gray_color = 'rgb({0}, {0}, {0})'.format(gray_value)
                 data.append(go.Scatter(x=[x1, x2, x3, x4, x1, None],
@@ -92,14 +98,5 @@ def draw_many_splinter(dm, dn, ic, jc, k, sigma):
                                        fill='toself',
                                        fillcolor=gray_color))
     fig = go.Figure(data=data)
-    #fig.show()
-   # fig.update_layout(
-   #     autosize=False,
-   #     width=500,
-   #     height=500,
-   #     xaxis=dict(
-   #         scaleanchor="y",
-   #         scaleratio=1,
-   #     ),
-   # )
+
     return fig
