@@ -24,9 +24,11 @@ class Point:
     # 计算点成为碎片点的状态，1为是，0为否
     def status(self):
         return 1-int(random.random()+1-self.pab())
+    #TODO 验证公式正确性
     # 计算点的面积（正态分布N(dist, sigma))
     def area(self):
         return random.normalvariate(self.dist(), self.sigma)
+    # 计算点的灰度值变动幅度
     def gray(self):
         v= int(200*self.sigma**2/(self.dist()+0.00001))
         if v>=127:
@@ -76,6 +78,9 @@ def draw_many_splinter(dm, dn, ic, jc, k, sigma):
 #m=127灰度-p.gray()
 #n=127灰度+p.gray()
                 # Calculate the gray color for each splinter
+                #重点就是要把这个127换成实际的从图像中读取的灰度值
+                #TODO 从图像中读取灰度值
+                # 可能的办法：1. 读取图像，2. 传递图像数据给draw.py 3. 从图像数据中获取灰度值 4. 用灰度值替换127
                 m = 127 - p.gray()
                 n = 127 + p.gray()
                 gray_value = random.randint(m, n)
