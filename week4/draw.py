@@ -38,19 +38,11 @@ class Point:
 
 def draw_many_splinter(dm, dn, ic, jc, k, sigma,picture):
     data=[]
-#假设碎片的长宽比为1：1
-#碎片中心点为i，j
-#碎片面积为area
-#在碎片的每个边上随机选取 1 个点，得到四个随机点
-#采用计算机图形学中的数值微分直线生成法连接四个点，得到一个碎片
-#生成所有碎片
 
-# 融合picture与碎片
-# 方法： 取图像中i,j点的灰度值，然后加减碎片的灰度变动幅度
     for i in np.arange(0, 100, dm):
         for j in np.arange(0, 100, dn):
             p = Point(i, j, ic, jc, k, sigma)
-            # 取图像中i,j点的灰度值
+
             if p.status() == 1:
                 area=p.area()
                 if area<=0:
@@ -66,14 +58,7 @@ def draw_many_splinter(dm, dn, ic, jc, k, sigma,picture):
                 x4 = random.uniform(i-a/2,i+a/2)
                 y4 = j+a/2
 
-#碎片内部灰度值为均匀分布U(m,n)的结果，碎片是实心的
-#m=127灰度-p.gray()
-#n=127灰度+p.gray()
-                # Calculate the gray color for each splinter
-                #重点就是要把这个127换成实际的从图像中读取的灰度值
-                #TODO 从图像中读取灰度值
-                # 可能的办法：1. 读取图像，2. 传递图像数据给draw.py 3. 从图像数据中获取灰度值 4. 用灰度值替换127
-                # 取图像中i,j点的灰度值
+
                 gray_pic = picture[int(i), int(j)]
                 m = gray_pic - p.gray()
                 n = gray_pic + p.gray()
