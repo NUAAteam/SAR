@@ -1,4 +1,3 @@
-# app.py
 import cv2
 import streamlit as st
 import draw  # import my module

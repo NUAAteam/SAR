@@ -42,7 +42,6 @@ def draw_many_splinter(dm, dn, ic, jc, k, sigma,picture):
     for i in np.arange(0, 100, dm):
         for j in np.arange(0, 100, dn):
             p = Point(i, j, ic, jc, k, sigma)
-
             if p.status() == 1:
                 area=p.area()
                 if area<=0:
@@ -57,7 +56,6 @@ def draw_many_splinter(dm, dn, ic, jc, k, sigma,picture):
                 y2 = j-a/2
                 x4 = random.uniform(i-a/2,i+a/2)
                 y4 = j+a/2
-
 
                 gray_pic = picture[int(i), int(j)]
                 m = gray_pic - p.gray()
