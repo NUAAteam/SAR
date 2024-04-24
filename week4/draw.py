@@ -35,39 +35,39 @@ class Point:
             v=127
         return v
 
+def process_picture(dm, dn, ic, jc, k, sigma, picture):
+  from skimage.draw import polygon
 
-def draw_many_splinter(dm, dn, ic, jc, k, sigma,picture):
-    data=[]
+  # 遍历图像中的每个点
+  for i in np.arange(0, picture.shape[0], dm):
+    for j in np.arange(0, picture.shape[1], dn):
+      p = Point(i, j, ic, jc, k, sigma)
+      # 如果点的状态为1，则生成一个碎片
+      if p.status() == 1:
+        area = p.area()
+        if area <= 0:
+          area = 0.0001
+        a = random.normalvariate(area**(1/2), p.sigma/2)
 
-    for i in np.arange(0, 100, dm):
-        for j in np.arange(0, 100, dn):
-            p = Point(i, j, ic, jc, k, sigma)
-            if p.status() == 1:
-                area=p.area()
-                if area<=0:
-                    area=0.0001
-                a=random.normalvariate(area**(1/2), p.sigma/2)
-                x1 = i-a/2
-                y1 = random.uniform(j-a/2,j+a/2)
-                x3 = i+a/2
-                y3 = random.uniform(j-a/2,j+a/2)
+        # 计算碎片的四个顶点
+        x1, y1 = i - a/2, j - a/2
+        x2, y2 = i + a/2, j - a/2
+        x3, y3 = i + a/2, j + a/2
+        x4, y4 = i - a/2, j + a/2
 
-                x2 = random.uniform(i-a/2,i+a/2)
-                y2 = j-a/2
-                x4 = random.uniform(i-a/2,i+a/2)
-                y4 = j+a/2
+        # 计算多边形的坐标
+        rr, cc = polygon([y1, y2, y3, y4, y1], [x1, x2, x3, x4, x1])
 
-                gray_pic = picture[int(i), int(j)]
-                m = gray_pic - p.gray()
-                n = gray_pic + p.gray()
-                gray_value = random.randint(m, n)
-                gray_color = 'rgb({0}, {0}, {0})'.format(gray_value)
-                data.append(go.Scatter(x=[x1, x2, x3, x4, x1, None],
-                                       y=[y1, y2, y3, y4, y1, None],
-                                       mode='lines',
-                                       line=dict(color=gray_color, width=1),
-                                       fill='toself',
-                                       fillcolor=gray_color))
-    fig = go.Figure(data=data)
+        # 确保坐标在图像范围内
+        rr = np.clip(rr, 0, picture.shape[0]-1)
+        cc = np.clip(cc, 0, picture.shape[1]-1)
 
-    return fig
+        # 计算新的灰度值
+        gray_pic = picture[rr, cc]
+        m = np.minimum(gray_pic - p.gray(), gray_pic + p.gray())
+        n = np.maximum(gray_pic - p.gray(), gray_pic + p.gray())
+        gray_value = np.random.randint(m, n, size=gray_pic.shape)
+
+        # 将新的灰度值应用到碎片区域
+        picture[rr, cc] = gray_value
+  return picture
