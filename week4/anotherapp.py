@@ -14,8 +14,8 @@ def main():
   # Create sliders in each column
   ic = col1.number_input('原爆点X轴坐标', min_value=0, max_value=10000, value=100)
   jc = col2.number_input('原爆点Y轴坐标', min_value=0, max_value=10000, value=100)
-  k = st.slider('打击密度', min_value=0, max_value=5000, value=1500)
-  sigma = st.slider('毁伤程度', min_value=0.0, max_value=5.0, value=2.0,step=0.1)
+  k = st.slider('打击密度', min_value=0, max_value=5000, value=5000)
+  sigma = st.slider('毁伤程度', min_value=0.0, max_value=5.0, value=5.0,step=0.1)
 
   # Generate the figure
   #todo 读取图片 from browser
