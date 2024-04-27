@@ -31,9 +31,9 @@ class Point:
     # 计算点的灰度值变动幅度
     def gray(self):
       if(self.dist()!=0):
-        v= int(100*self.sigma**2/(self.dist()))
+        v= int(150*self.sigma**2/(self.dist()))
       else:
-        v=255
+        v=1024
       return v
 
 
@@ -46,7 +46,7 @@ def process(i,j, ic, jc, k, sigma, picture):
     area = p.area()
     if area <= 0:
       area = 0.0001
-    a = random.normalvariate(area**(1/2), p.sigma/2)
+    a = random.normalvariate(area**0.5, p.sigma*0.5)
 
     # 计算碎片的四个顶点
     x1, y1 = i - a/2, j - a/2
@@ -75,7 +75,13 @@ def process(i,j, ic, jc, k, sigma, picture):
     #m = np.where(np.equal(m, n), np.minimum(m, n - 1), m)
     #m = np.where(np.equal(m, n), n - 1, m)
     #print(m,n)
-    gray_value = np.random.randint(m, n, size=gray_pic.shape)
+
+    # 生成新的灰度值(with some ratios)
+    ratio=1.95
+    m_normal_ratio=1
+    n_normal_ratio=0.9
+
+    gray_value = (np.random.randint(m, n, size=gray_pic.shape)+(np.random.normal(loc=m, scale=p.sigma, size=gray_pic.shape)*m_normal_ratio+np.random.normal(loc=n, scale=p.sigma, size=gray_pic.shape)*n_normal_ratio)/2)/ratio
 
     # 将新的灰度值应用到碎片区域
     picture[rr, cc] = gray_value
