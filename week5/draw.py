@@ -1,5 +1,6 @@
 import math
 import random
+from flask import g
 import plotly.graph_objects as go
 import numpy as np
 
@@ -31,7 +32,8 @@ class Point:
     # 计算点的灰度值变动幅度
     def gray(self):
       if(self.dist()!=0):
-        v= int(150*self.sigma**2/(self.dist()))
+        #v= int(150*self.sigma**2/(self.dist()))
+        v= int(150*self.sigma/(self.dist()))
       else:
         v=1024
       return v
@@ -42,25 +44,24 @@ def process(i,j, ic, jc, k, sigma, picture):
   # 遍历图像中的每个点
   p = Point(i, j, ic, jc, k, sigma)
   # 如果点的状态为1，则生成一个碎片
+  area = p.area()
+  if area <= 0:
+    area = 0.0001
+  a = random.normalvariate(area**0.5, p.sigma*0.5)
+
+  # 计算碎片的四个顶点
+  x1, y1 = i - a/2, j - a/2
+  x2, y2 = i + a/2, j - a/2
+  x3, y3 = i + a/2, j + a/2
+  x4, y4 = i - a/2, j + a/2
+
+  # 计算多边形的坐标
+  rr, cc = polygon([y1, y2, y3, y4, y1], [x1, x2, x3, x4, x1])
+
+  # 确保坐标在图像范围内
+  rr = np.clip(rr, 0, picture.shape[0]-1)
+  cc = np.clip(cc, 0, picture.shape[1]-1)
   if p.status() == 1:
-    area = p.area()
-    if area <= 0:
-      area = 0.0001
-    a = random.normalvariate(area**0.5, p.sigma*0.5)
-
-    # 计算碎片的四个顶点
-    x1, y1 = i - a/2, j - a/2
-    x2, y2 = i + a/2, j - a/2
-    x3, y3 = i + a/2, j + a/2
-    x4, y4 = i - a/2, j + a/2
-
-    # 计算多边形的坐标
-    rr, cc = polygon([y1, y2, y3, y4, y1], [x1, x2, x3, x4, x1])
-
-    # 确保坐标在图像范围内
-    rr = np.clip(rr, 0, picture.shape[0]-1)
-    cc = np.clip(cc, 0, picture.shape[1]-1)
-
     # 计算新的灰度值
     gray_pic = picture[rr, cc]
     p_gray=p.gray()
@@ -72,39 +73,39 @@ def process(i,j, ic, jc, k, sigma, picture):
       temp1 = temp1 - 1
     m = np.minimum(temp1, temp2)
     n = np.maximum(temp1, temp2)
-    #m = np.where(np.equal(m, n), np.minimum(m, n - 1), m)
-    #m = np.where(np.equal(m, n), n - 1, m)
-    #print(m,n)
-
-    # 生成新的灰度值(with some ratios)
-    ratio=2
-    m_normal_ratio=1
-    n_normal_ratio=1
-
-    #gray_value = (np.random.randint(m, n, size=gray_pic.shape)+(np.random.normal(loc=m, scale=p.sigma, size=gray_pic.shape)*m_normal_ratio+np.random.normal(loc=n, scale=p.sigma, size=gray_pic.shape)*n_normal_ratio)/2)/ratio
-
     gray_value = np.random.randint(m, n, size=gray_pic.shape)
+  else:
+    gray_value = picture[rr, cc]
 
-    #gray_value = np.random.normal(loc=gray_pic, scale=p.sigma, size=gray_pic.shape)
-
-    # 将新的灰度值应用到碎片区域
-
-    picture[rr, cc] = gray_value
-    #论文里为了缩短仿真时间，取消了一部分的碎片生成，所以这里的碎片生成和灰度值变化的公式和论文里的不一样
-    #因为我们是先判断了每个点的状态，大大节省了仿真时间
+  return rr, cc, gray_value
 
 def process_picture(dm, dn, ic, jc, k, sigma, picture):
+  # 创建一个跟踪碎片位置的数组,避免重复碎片
+  occupied = np.zeros_like(picture, dtype=bool)
+
   max_dim = np.argmax(picture.shape)
   # If the longer side is the height (dimension 0), iterate over i
   if max_dim == 0:
     for j in np.arange(0, picture.shape[0], dm):
       for i in np.arange(0, picture.shape[1], dn):
-        process(i, j, ic, jc, k, sigma, picture)
+        rr, cc,gray_value = process(i, j, ic, jc, k, sigma, picture)
+        # 检查位置是否已经被占用
+        if not occupied[rr, cc].any():
+          # 如果位置未被占用，那么标记为已占用
+          occupied[rr, cc] = True
+          # 将新的碎片添加到图片
+          picture[rr, cc] = gray_value
 
   # If the longer side is the width (dimension 1), iterate over j
   else:
     for i in np.arange(0, picture.shape[1], dn):
       for j in np.arange(0, picture.shape[0], dm):
-        process(i, j, ic, jc, k, sigma, picture)
+        rr, cc,gray_value= process(i, j, ic, jc, k, sigma, picture)
+        # 检查位置是否已经被占用
+        if not occupied[rr, cc].any():
+          # 如果位置未被占用，那么标记为已占用
+          occupied[rr, cc] = True
+          # 将新的碎片添加到图片
+          picture[rr, cc] = gray_value
 
   return picture
