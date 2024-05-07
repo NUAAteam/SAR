@@ -34,12 +34,13 @@ def main():
   st.image(picture, caption='原始图像', use_column_width=True)
   original_picture = picture.copy()
   picture=draw.process_picture(dm, dn, ic, jc, k, sigma, picture)
-  # Display the figure
-  #st.plotly_chart(fig)
   st.image(picture, caption='处理后图像', use_column_width=True)
 
-  # Compute the difference
-  difference = original_picture - picture
+# Compute the absolute difference
+  difference = np.abs(original_picture.astype(int) - picture.astype(int))
+
+# Convert the difference to uint8
+  difference = difference.astype(np.uint8)
 
 # Create the x, y, and z coordinate arrays
   y, x = np.mgrid[:difference.shape[0], :difference.shape[1]]
@@ -49,7 +50,7 @@ def main():
   fig = go.Figure(data=[go.Surface(z=z, x=x, y=y)])
 
 # Update layout options
-  fig.update_layout(title='Difference Between Original and Processed Image', autosize=False,
+  fig.update_layout(title='灰度差异的3D图像表示', autosize=False,
                   width=500, height=500,
                   margin=dict(l=65, r=50, b=65, t=90))
 
