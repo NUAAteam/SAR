@@ -68,39 +68,27 @@ st.plotly_chart(fig)
 b = st.number_input('Enter the fuzzy ratio parameter b:', min_value=1.0, max_value=1000.0, value=50.0, step=0.1)
 
 # 计算带宽omega
-omega = (gray_img.shape[0] * gray_img.shape[1]) /((b+2.0)/3.0)
+omega = 5.0*np.sqrt(gray_img.shape[0] * gray_img.shape[1]) /(b)
 
 original_picture = gray_img.copy()
 
-from scipy.fftpack import fftn, ifftn, fftshift, ifftshift
+def low_pass_filter(image, cutoff):
+    # Perform the Fourier transform
+    f = np.fft.fft2(image)
+    fshift = np.fft.fftshift(f)
 
-def low_pass_filter(complex_image, cutoff):
-  # 提取复数图像的幅度和相位
-  magnitude = np.abs(complex_image)
-  phase = np.angle(complex_image)
+    # Create a mask
+    rows, cols = image.shape
+    crow, ccol = int(rows/2), int(cols/2)
+    mask = np.zeros((rows, cols), np.uint8)
+    mask[crow-cutoff:crow+cutoff, ccol-cutoff:ccol+cutoff] = 1
 
-  # Compute the 2-dimensional FFT of the phase
-  fft_phase = fftshift(fftn(phase))
+    # Apply the mask and inverse Fourier transform
+    fshift_masked = fshift * mask
+    f_ishift = np.fft.ifftshift(fshift_masked)
+    img_back = np.fft.ifft2(f_ishift)
 
-  # Create a grid of distances from the center of the image
-  rows, cols = phase.shape
-  half_rows, half_cols = rows // 2, cols // 2
-  x, y = np.ogrid[:rows, :cols]
-  distances = np.sqrt((x - half_rows)**2 + (y - half_cols)**2)
-
-  # Create a mask that is True for all pixels within the cutoff distance
-  mask = distances <= cutoff
-
-  # Apply the mask to the FFT phase
-  fft_phase *= mask
-
-  # Compute the inverse FFT of the masked phase
-  filtered_phase = np.angle(ifftn(ifftshift(fft_phase)))
-
-  # Combine the filtered phase with the original magnitude
-  filtered_complex_image = magnitude * np.exp(1j * filtered_phase)
-
-  return filtered_complex_image
+    return img_back
 
 # 生成一个与图像大小相同的随机相位数组
 theta = np.random.uniform(0, 2*np.pi, gray_img.shape)
@@ -108,12 +96,13 @@ theta = np.random.uniform(0, 2*np.pi, gray_img.shape)
 # 对图像中的每个点乘以exp(j*theta)
 complex_img = gray_img * np.exp(1j * theta)
 # Apply the low-pass filter
-filtered_img = low_pass_filter(complex_img, omega)
+filtered_img = low_pass_filter(complex_img, int(omega))
 
-# 显示滤波后的图像
-fig = go.Figure(data=go.Heatmap(z=filtered_img.real, colorscale='gray', showscale=False))
+# Display the modified magnitude image
+fig = go.Figure(data=go.Heatmap(z=np.abs(filtered_img), colorscale='gray', showscale=False))
 fig.update_layout(autosize=True)
 st.plotly_chart(fig)
+
 def plot_difference(original_picture, picture):
     # Compute the absolute difference
     difference = np.abs(original_picture.astype(int) - picture.astype(int))
