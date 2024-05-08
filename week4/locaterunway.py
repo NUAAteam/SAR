@@ -65,7 +65,7 @@ fig.update_layout(autosize=True)
 st.plotly_chart(fig)
 
 # enter 模糊比参数b=光学/SAR
-b = st.number_input('Enter the fuzzy ratio parameter b:', min_value=1.0, max_value=1000.0, value=50.0, step=0.1)
+b = st.number_input('Enter the fuzzy ratio parameter b:', min_value=1.0, max_value=10.0, value=3.0, step=0.1)
 
 # 计算带宽omega
 omega = 5.0*np.sqrt(gray_img.shape[0] * gray_img.shape[1]) /(b)
@@ -119,7 +119,7 @@ def plot_difference(original_picture, picture):
 
     return fig
 # Create a 3D surface plot
-#fig = plot_difference(original_picture, img_back)
+#fig = plot_difference(original_picture, np.abs(filtered_img))
 
 # Update layout options
 #fig.update_layout(title='灰度差异的3D图像表示', autosize=False,
