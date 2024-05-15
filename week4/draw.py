@@ -72,9 +72,7 @@ def process(i,j, ic, jc, k, sigma, picture):
       temp1 = temp1 - 1
     m = np.minimum(temp1, temp2)
     n = np.maximum(temp1, temp2)
-    #m = np.where(np.equal(m, n), np.minimum(m, n - 1), m)
-    #m = np.where(np.equal(m, n), n - 1, m)
-    #print(m,n)
+
 
     # 生成新的灰度值(with some ratios)
     ratio=2
