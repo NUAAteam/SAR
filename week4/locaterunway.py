@@ -3,8 +3,7 @@ import numpy as np
 from PIL import Image
 import plotly.graph_objs as go
 import cv2
-from scipy.fftpack import fft2, ifft2, fftshift, ifftshift
-import matplotlib.pyplot as plt
+
 
 # 加载图像
 img_path = 'C:/Users/Lenovo/Desktop/SAR/week4/runway.jpg'
@@ -20,6 +19,9 @@ fig = go.Figure(data=go.Heatmap(z=gray_img, colorscale='gray', showscale=False))
 # 获取用户输入的坐标
 x = st.number_input('Enter x coordinate:', min_value=0, max_value=img.width-1, value=555, step=1)
 y = st.number_input('Enter y coordinate:', min_value=0, max_value=img.height-1, value=632, step=1)
+
+# Display the original image
+st.image(img, caption='Original Image')
 
 x, y = int(x), int(y)
 # 获取种子点的灰度值
@@ -62,6 +64,12 @@ fig.add_shape(type="line", x0=0, y0=y, x1=gray_img.shape[1], y1=y, line=dict(col
 
 # 自动调整图像大小以适应窗口宽度
 fig.update_layout(autosize=True)
+# Set the layout to keep the original aspect ratio
+#fig.update_layout(
+#    autosize=False,
+#    width=img.width,
+#    height=img.height,
+#)
 st.plotly_chart(fig)
 
 # enter 模糊比参数b=光学/SAR
