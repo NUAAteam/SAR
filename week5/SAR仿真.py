@@ -6,8 +6,14 @@ import cv2
 
 
 # 加载图像
-img_path = 'C:/Users/Lenovo/Desktop/SAR/week4/runway.jpg'
-img = Image.open(img_path)
+
+# 用户上传图像或使用默认图像
+uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'jpeg', 'png'])
+if uploaded_file is not None:
+    img = Image.open(uploaded_file)
+else:
+    img_path = 'C:/Users/Lenovo/Desktop/SAR/week4/runway.jpg'
+    img = Image.open(img_path)
 img_array = np.array(img)
 
 # 转换为灰度图像
@@ -17,8 +23,12 @@ gray_img = cv2.cvtColor(img_array, cv2.COLOR_RGB2GRAY)
 fig = go.Figure(data=go.Heatmap(z=gray_img, colorscale='gray', showscale=False))
 
 # 获取用户输入的坐标
-x = st.number_input('Enter x coordinate:', min_value=0, max_value=img.width-1, value=555, step=1)
-y = st.number_input('Enter y coordinate:', min_value=0, max_value=img.height-1, value=632, step=1)
+if uploaded_file is None:
+  x = st.number_input('Enter x coordinate:', min_value=0, max_value=img.width-1, value=555, step=1)
+  y = st.number_input('Enter y coordinate:', min_value=0, max_value=img.height-1, value=632, step=1)
+else:
+  x = st.number_input('Enter x coordinate:', min_value=0, max_value=img.width-1, value=int(img.width/2), step=1)
+  y = st.number_input('Enter y coordinate:', min_value=0, max_value=img.height-1, value=int(img.height/2), step=1)
 
 # Display the original image
 st.image(img, caption='Original Image')
