@@ -19,9 +19,7 @@ def plot_difference(original_picture, picture):
     fig = go.Figure(data=[go.Surface(z=z, x=x, y=y)])
 
     return fig
-def main():
-  st.title('高分辨率 SAR 图像打击效果评估')
-
+def simulate():
   # Create sliders
   dm = st.slider('横向打击分辨度', min_value=0.0, max_value=2.0, value=1.0, step=0.1)
   dn = st.slider('纵向打击分辨度', min_value=0.0, max_value=2.0, value=1.0,step=0.1)
@@ -76,5 +74,4 @@ def main():
   # Display the figure in Streamlit
   st.pyplot(fig)
 
-if __name__ == '__main__':
-  main()
+
