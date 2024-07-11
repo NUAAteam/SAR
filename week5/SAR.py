@@ -4,6 +4,7 @@ from PIL import Image
 import plotly.graph_objs as go
 import cv2
 from collections import deque
+import os
 
 def region_growing(img, seed, threshold):
   # 创建一个和输入图像同样大小的布尔数组，用于标记访问过的像素
@@ -47,7 +48,8 @@ def sar():
   if uploaded_file is not None:
       img = Image.open(uploaded_file)
   else:
-      img_path = 'C:/Users/Lenovo/Desktop/SAR/week4/runway.jpg'
+    #注意这里也要修改vscode的工作路径，如果报错的话
+      img_path =  os.path.abspath('.\\week5\\runway.jpg')
       img = Image.open(img_path)
   img_array = np.array(img)
 
@@ -117,6 +119,14 @@ def sar():
   fig = go.Figure(data=go.Heatmap(z=np.abs(filtered_img), colorscale='gray', showscale=False))
   fig.update_layout(autosize=True)
   st.plotly_chart(fig)
+
+  fig.update_layout(
+    margin=dict(l=0, r=0, t=0, b=0),  # Set all margins to 0
+    xaxis=dict(showgrid=False, zeroline=False, visible=False),  # Hide x-axis lines, ticks, and labels
+    yaxis=dict(showgrid=False, zeroline=False, visible=False)  # Hide y-axis lines, ticks, and labels
+  )
+  # Save the figure without borders
+  fig.write_image("image_without_borders.png")
 
 def plot_difference(original_picture, picture):
     # Compute the absolute difference

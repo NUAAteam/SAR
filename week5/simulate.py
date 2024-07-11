@@ -34,7 +34,7 @@ def simulate():
   #todo 读取图片 from browser
 
   # Read the image from the browser
-  uploaded_file = st.file_uploader("Choose an image...", type="jpg")
+  uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'jpeg', 'png'])
   if uploaded_file is not None:
     file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
     picture = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
