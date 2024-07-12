@@ -63,10 +63,10 @@ def process(i,j, ic, jc, k, sigma, picture):
 
     # 计算新的灰度值
     gray_pic = picture[rr, cc]
-    p_gray=p.gray()
-    #print(p_gray)
-    temp1 = gray_pic - p_gray
-    temp2 = gray_pic + p_gray
+
+
+    temp1 = np.uint16(gray_pic) - np.uint16(p.gray())
+    temp2 = np.uint16(gray_pic) + np.uint16(p.gray())  # Assuming you want temp2 to be np.uint16 as well
     #print(temp1,temp2)
     if np.array_equal(temp1, temp2):
       temp1 = temp1 - 1
@@ -92,17 +92,15 @@ def process(i,j, ic, jc, k, sigma, picture):
     #因为我们是先判断了每个点的状态，大大节省了仿真时间
 
 def process_picture(dm, dn, ic, jc, k, sigma, picture):
-  max_dim = np.argmax(picture.shape)
-  # If the longer side is the height (dimension 0), iterate over i
-  if max_dim == 0:
-    for j in np.arange(0, picture.shape[0], dm):
-      for i in np.arange(0, picture.shape[1], dn):
-        process(i, j, ic, jc, k, sigma, picture)
+    # 确保遍历的起始点不小于0，结束点不超过图片尺寸
+    start_i = max(ic - 50, 0)
+    end_i = min(ic + 50, picture.shape[1])
+    start_j = max(jc - 50, 0)
+    end_j = min(jc + 50, picture.shape[0])
 
-  # If the longer side is the width (dimension 1), iterate over j
-  else:
-    for i in np.arange(0, picture.shape[1], dn):
-      for j in np.arange(0, picture.shape[0], dm):
-        process(i, j, ic, jc, k, sigma, picture)
+    # 遍历ic, jc周围一百个点
+    for i in np.arange(start_i, end_i, dn):
+        for j in np.arange(start_j, end_j, dm):
+            process(i, j, ic, jc, k, sigma, picture)
 
-  return picture
+    return picture

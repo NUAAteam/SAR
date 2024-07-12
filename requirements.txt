@@ -4,3 +4,5 @@ numpy
 matplotlib
 plotly
 Pillow
+scikit-image
+kaleido

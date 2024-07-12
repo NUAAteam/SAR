@@ -49,7 +49,7 @@ def sar():
       img = Image.open(uploaded_file)
   else:
     #注意这里也要修改vscode的工作路径，如果报错的话
-      img_path =  os.path.abspath('.\\week5\\runway.jpg')
+      img_path =  os.path.abspath('./week5/runway.jpg')
       img = Image.open(img_path)
   img_array = np.array(img)
 
