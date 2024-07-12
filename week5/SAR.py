@@ -49,7 +49,7 @@ def sar():
       img = Image.open(uploaded_file)
   else:
     #注意这里也要修改vscode的工作路径，如果报错的话
-      img_path =  os.path.abspath('./week5/runway.jpg')
+      img_path =  os.path.abspath('./assets/runway.jpg')
       img = Image.open(img_path)
   img_array = np.array(img)
 
@@ -126,7 +126,7 @@ def sar():
     yaxis=dict(showgrid=False, zeroline=False, visible=False)  # Hide y-axis lines, ticks, and labels
   )
   # Save the figure without borders
-  fig.write_image("image_without_borders.png")
+  fig.write_image("./asset/image_without_borders.png")
 
 def plot_difference(original_picture, picture):
     # Compute the absolute difference

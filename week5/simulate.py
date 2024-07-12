@@ -4,6 +4,7 @@ import draw  # import my module
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
+import os
 def plot_difference(original_picture, picture):
     # Compute the absolute difference
     difference = np.abs(original_picture.astype(int) - picture.astype(int))
@@ -39,11 +40,11 @@ def simulate():
     file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
     picture = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
   else:
-    picture = cv2.imread('week4/assets/nuaa_sar.jpg', cv2.IMREAD_GRAYSCALE)
+    imgpath=os.path.abspath('./assets/nuaa_sar.jpg')
+    picture = cv2.imread(imgpath, cv2.IMREAD_GRAYSCALE)
 
 
   st.image(picture, caption='原始图像', use_column_width=True)
-  original_picture = picture.copy()
   picture=draw.process_picture(dm, dn, ic, jc, k, sigma, picture)
   st.image(picture, caption='处理后图像', use_column_width=True)
 
