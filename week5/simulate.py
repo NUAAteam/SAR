@@ -48,15 +48,14 @@ def simulate():
   st.image(picture, caption='处理后图像', use_column_width=True)
 
   # Create a 3D surface plot
-  fig = plot_difference(original_picture, picture)
+  #fig = plot_difference(original_picture, picture)
 
   # Update layout options
-  fig.update_layout(title='灰度差异的3D图像表示', autosize=False,
-                  width=500, height=500,
-                  margin=dict(l=65, r=50, b=65, t=90))
-
+  #fig.update_layout(title='灰度差异的3D图像表示', autosize=False,
+  #                width=500, height=500,
+  #                margin=dict(l=65, r=50, b=65, t=90))
   # Display the figure
-  st.plotly_chart(fig)
+  #st.plotly_chart(fig)
 
   # Create a new figure and axes
   fig, ax = plt.subplots()
