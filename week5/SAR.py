@@ -5,24 +5,49 @@ import plotly.graph_objs as go
 import cv2
 from collections import deque
 import os
+from cffi import FFI
 
+#def region_growing(img, seed, threshold):
+  ## 创建一个和输入图像同样大小的布尔数组，用于标记访问过的像素
+  #visited = np.zeros_like(img, dtype=np.bool_)
+  #dx = [-1, 0, 1, 0]
+  #dy = [0, 1, 0, -1]
+  #queue = deque([seed])
+  #seed_value = int(img[seed])
+  #while queue:
+    #x, y = queue.popleft()
+    #if not visited[y, x] and abs(int(img[y, x]) - seed_value) <= threshold:
+      #visited[y, x] = True
+      #img[y, x] = 0
+      #for i in range(4):
+        #nx, ny = x + dx[i], y + dy[i]
+        #if 0 <= nx < img.shape[1] and 0 <= ny < img.shape[0]:
+          #queue.append((nx, ny))
+  #return img
 def region_growing(img, seed, threshold):
-  # 创建一个和输入图像同样大小的布尔数组，用于标记访问过的像素
-  visited = np.zeros_like(img, dtype=np.bool_)
-  dx = [-1, 0, 1, 0]
-  dy = [0, 1, 0, -1]
-  queue = deque([seed])
-  seed_value = int(img[seed])
-  while queue:
-    x, y = queue.popleft()
-    if not visited[y, x] and abs(int(img[y, x]) - seed_value) <= threshold:
-      visited[y, x] = True
-      img[y, x] = 0
-      for i in range(4):
-        nx, ny = x + dx[i], y + dy[i]
-        if 0 <= nx < img.shape[1] and 0 <= ny < img.shape[0]:
-          queue.append((nx, ny))
-  return img
+  ffi = FFI()
+
+  # 定义C函数接口
+  ffi.cdef("""
+  void region_growing(unsigned char* img, int rows, int cols, int seedX, int seedY, unsigned char threshold);
+  """)
+
+  # 加载共享库
+  C = ffi.dlopen("./region_growing.so")
+
+  # 准备调用C函数的参数
+  image = img # 假设这是一个NumPy数组
+  rows, cols = image.shape
+  threshold = 10  # 示例阈值
+
+  # 将NumPy数组转换为C兼容的数据
+  image_c = ffi.cast("unsigned char *", image.ctypes.data)
+
+# 调用C函数
+  C.region_growing(image_c, rows, cols, seed[0], seed[1], threshold) # type: ignore
+
+  # 注意：调用完毕后，image将会被直接修改
+  return image
 # 加载图像
 def low_pass_filter(image, cutoff):
     # Perform the Fourier transform
