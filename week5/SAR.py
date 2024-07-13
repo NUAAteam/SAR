@@ -13,7 +13,6 @@ def region_growing(img, seed, threshold):
   dy = [0, 1, 0, -1]
   queue = deque([seed])
   seed_value = int(img[seed])
-
   while queue:
     x, y = queue.popleft()
     if not visited[y, x] and abs(int(img[y, x]) - seed_value) <= threshold:
@@ -80,7 +79,7 @@ def sar():
 
 
   # 在主程序中使用区域增长算法
-  gray_img = region_growing(gray_img, (x, y), threshold)
+  gray_img = region_growing(gray_img, (x, y), threshold) # type: ignore
 
   # 更新Plotly图像
   fig = go.Figure(data=go.Heatmap(z=gray_img, colorscale='gray', showscale=False))
@@ -126,7 +125,7 @@ def sar():
     yaxis=dict(showgrid=False, zeroline=False, visible=False)  # Hide y-axis lines, ticks, and labels
   )
   # Save the figure without borders
-  fig.write_image("./asset/image_without_borders.png")
+  fig.write_image("./assets/image_without_borders.png")
 
 def plot_difference(original_picture, picture):
     # Compute the absolute difference
