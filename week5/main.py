@@ -7,11 +7,7 @@ def main():
     page = st.sidebar.selectbox("选择你的界面", [
     "主界面",
     "图像打击效果仿真",
-<<<<<<< HEAD
-    "高分辨率SAR图像仿真"
-=======
     "高分辨率SAR图像仿真",
->>>>>>> 93edab14526d30c34094c28146c49b3c778c5e24
     "打击目标"
     ])
 
@@ -46,42 +42,31 @@ def main():
                 bytes_data = result_image
             st.download_button("下载SAR仿真结果", bytes_data, "sar_result.jpg", "image/jpeg")
 
-<<<<<<< HEAD
-  elif page == "图像打击效果仿真":
+    elif page == "图像打击效果仿真":
       # 第一个子页面内容
       st.title('图像打击效果仿真')
       # 在这里调用simulate函数来显示页面1的内容
       simulate()
 
-  elif page == "高分辨率SAR图像仿真":
+    elif page == "高分辨率SAR图像仿真":
       # 第二个子页面内容
       st.title("高分辨率SAR图像仿真")
       sar()
-  elif page == "打击目标":
+    elif page == "打击目标":
       # 新增的打击目标功能区
       st.title("打击目标")
       uploaded_files = st.file_uploader("上传图片", accept_multiple_files=True, type=['jpg', 'jpeg', 'png'], help="一次性上传多张图片")
 
-      if uploaded_files:
-          for uploaded_file in uploaded_files:
+    if uploaded_files:
+        for uploaded_file in uploaded_files:
               st.image(uploaded_file, caption=uploaded_file.name, width=100)
 
-          selected_action = st.selectbox("选择操作", ["请选择操作", "高分辨率SAR图像仿真", "图像打击效果仿真"])
+        selected_action = st.selectbox("选择操作", ["请选择操作", "高分辨率SAR图像仿真", "图像打击效果仿真"])
 
-          if selected_action == "高分辨率SAR图像仿真":
+        if selected_action == "高分辨率SAR图像仿真":
               sar()
-          elif selected_action == "图像打击效果仿真":
+        elif selected_action == "图像打击效果仿真":
               simulate()
-=======
-    elif page == "打击目标":
-        st.title("打击目标")
-        uploaded_files = st.file_uploader("上传图片", accept_multiple_files=True, type=['jpg', 'jpeg', 'png'])
-        if uploaded_files:
-            for uploaded_file in uploaded_files:
-                st.image(uploaded_file, caption=uploaded_file.name, width=100)
-            selected_action = st.selectbox("选择操作", ["请选择操作", "高分辨率SAR图像仿真", "图像打击效果仿真"])
-            # 根据选择的操作执行相应函数并提供下载功能，这里省略了具体实现细节
->>>>>>> 93edab14526d30c34094c28146c49b3c778c5e24
 
 if __name__ == "__main__":
     main()
