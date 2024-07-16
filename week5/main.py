@@ -6,7 +6,7 @@ def main():
   page = st.sidebar.selectbox("选择你的界面", [
     "主界面",
     "图像打击效果仿真",
-    "高分辨率SAR图像仿真"
+    "高分辨率SAR图像仿真",
     "打击目标"
     ])
 
