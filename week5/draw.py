@@ -95,11 +95,7 @@ def process_picture(dm, dn, ic, jc, k, sigma, picture):
     # 确保遍历的起始点不小于0，结束点不超过图片尺寸
     start_i = max(ic - 250, 0)
     end_i = min(ic + 250, picture.shape[1])
-<<<<<<< HEAD
-    start_j = max(jc -250, 0)
-=======
     start_j = max(jc - 250, 0)
->>>>>>> 93edab14526d30c34094c28146c49b3c778c5e24
     end_j = min(jc + 250, picture.shape[0])
 
     # 遍历ic, jc周围一百个点
