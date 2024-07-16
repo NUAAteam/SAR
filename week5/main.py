@@ -57,7 +57,7 @@ def main():
       st.title("打击目标")
       uploaded_files = st.file_uploader("上传图片", accept_multiple_files=True, type=['jpg', 'jpeg', 'png'], help="一次性上传多张图片")
 
-    if uploaded_files:
+      if uploaded_files:
         for uploaded_file in uploaded_files:
               st.image(uploaded_file, caption=uploaded_file.name, width=100)
 
