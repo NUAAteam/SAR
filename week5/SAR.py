@@ -5,25 +5,25 @@ import plotly.graph_objs as go
 import cv2
 from collections import deque
 import os
-from cffi import FFI
 
 def region_growing(img, seed, threshold):
-  # 创建一个和输入图像同样大小的布尔数组，用于标记访问过的像素
-  visited = np.zeros_like(img, dtype=np.bool_)
-  dx = [-1, 0, 1, 0]
-  dy = [0, 1, 0, -1]
-  queue = deque([seed])
-  seed_value = int(img[seed])
-  while queue:
-    x, y = queue.popleft()
-    if not visited[y, x] and abs(int(img[y, x]) - seed_value) <= threshold:
-      visited[y, x] = True
-      img[y, x] = 0
-      for i in range(4):
-        nx, ny = x + dx[i], y + dy[i]
-        if 0 <= nx < img.shape[1] and 0 <= ny < img.shape[0]:
-          queue.append((nx, ny))
-  return img
+    visited = np.zeros_like(img, dtype=np.bool_)
+    dx = np.array([-1, 0, 1, 0])
+    dy = np.array([0, 1, 0, -1])
+    queue = deque([seed])
+    seed_value = img[seed].item()
+    while queue:
+        x, y = queue.popleft()
+        if visited[y, x]:
+            continue
+        if abs(img[y, x].item() - seed_value) <= threshold:
+            visited[y, x] = True
+            img[y, x] = 0
+            for i in range(4): # Check the 4-neighbors
+                nx, ny = x + dx[i], y + dy[i]
+                if 0 <= nx < img.shape[1] and 0 <= ny < img.shape[0] and not visited[ny, nx]:
+                    queue.append((nx, ny))
+    return img
 
 # 加载图像
 def low_pass_filter(image, cutoff):
@@ -81,7 +81,8 @@ def sar():
 
 
   # 在主程序中使用区域增长算法
-  gray_img = region_growing(gray_img, (x, y), threshold) # type: ignore
+  #gray_img = parallel_region_growing(gray_img, (x, y), threshold)
+  gray_img = region_growing(gray_img, (x, y), threshold)
 
   # 更新Plotly图像
   fig = go.Figure(data=go.Heatmap(z=gray_img, colorscale='gray', showscale=False))
@@ -117,7 +118,7 @@ def sar():
   filtered_img = low_pass_filter(complex_img, int(omega))
 
   # Display the modified magnitude image
-  fig = go.Figure(data=go.Heatmap(z=np.abs(filtered_img), colorscale='gray', showscale=False))
+  fig = go.Figure(data=go.Heatmap(z=np.abs(filtered_img), colorscale='gray', showscale=False)) # type: ignore
   fig.update_layout(autosize=True)
   st.plotly_chart(fig)
 

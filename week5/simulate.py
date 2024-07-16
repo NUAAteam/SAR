@@ -5,6 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import os
+from noise import pnoise2  # 导入柏林噪声函数x
+
 def plot_difference(original_picture, picture):
     # Compute the absolute difference
     difference = np.abs(original_picture.astype(int) - picture.astype(int))
@@ -15,6 +17,13 @@ def plot_difference(original_picture, picture):
     # Create the x, y, and z coordinate arrays
     y, x = np.mgrid[:difference.shape[0], :difference.shape[1]]
     z = difference
+
+    # Apply Perlin noise to simulate more natural effects
+    scale = 0.1  # Scale of the noise
+    for i in range(z.shape[0]):
+        for j in range(z.shape[1]):
+            z[i, j] += pnoise2(i * scale, j * scale) * 255  # Adjust intensity of the effect
+
 
     # Create a 3D surface plot
     fig = go.Figure(data=[go.Surface(z=z, x=x, y=y)])

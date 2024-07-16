@@ -6,3 +6,4 @@ plotly
 Pillow
 scikit-image
 kaleido
+noise
