@@ -43,9 +43,9 @@ def low_pass_filter(image, cutoff):
     img_back = np.fft.ifft2(f_ishift)
 
     return img_back
-def sar():
+def sar(uploaded_file=None):
   # 用户上传图像或使用默认图像
-  uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'jpeg', 'png'])
+  #uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'jpeg', 'png'])
   if uploaded_file is not None:
       img = Image.open(uploaded_file)
   else:
@@ -81,7 +81,6 @@ def sar():
 
 
   # 在主程序中使用区域增长算法
-  #gray_img = parallel_region_growing(gray_img, (x, y), threshold)
   gray_img = region_growing(gray_img, (x, y), threshold)
 
   # 更新Plotly图像
