@@ -29,7 +29,7 @@ def plot_difference(original_picture, picture):
     fig = go.Figure(data=[go.Surface(z=z, x=x, y=y)])
 
     return fig
-def simulate():
+def simulate(uploaded_file=None):
   # Create sliders
   dm = st.slider('横向打击分辨度', min_value=0.0, max_value=2.0, value=1.0, step=0.1)
   dn = st.slider('纵向打击分辨度', min_value=0.0, max_value=2.0, value=1.0,step=0.1)
@@ -41,10 +41,11 @@ def simulate():
   sigma = st.slider('毁伤程度', min_value=0.01, max_value=5.0, value=1.0,step=0.1)
 
   # Generate the figure
-  #todo 读取图片 from browser
+
 
   # Read the image from the browser
-  uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'jpeg', 'png'])
+  #uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'jpeg', 'png'])
+
   if uploaded_file is not None:
     file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
     picture = cv2.imdecode(file_bytes, cv2.IMREAD_GRAYSCALE)
