@@ -1,0 +1,40 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+}
+
+.upload-section, .select-section, .download-section {
+  margin: 20px 0;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#resultImage {
+  width: 100%;
+  height: auto;
+  display: none;
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAR Simulation</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>欢迎来到SAR图像仿真实验系统</h1>
+    <div class="upload-section">
+      <input type="file" id="fileInput" multiple>
+      <button onclick="uploadFiles()">上传图片</button>
+    </div>
+    <div class="select-section">
+      <select id="fileSelect">
+        <option value="">选择图片</option>
+      </select>
+      <select id="actionSelect">
+        <option value="">请选择操作</option>
+        <option value="high_res_sar">高分辨率SAR图像仿真</option>
+        <option value="strike_effect">图像打击效果仿真</option>
+      </select>
+      <button onclick="simulate()">开始仿真</button>
+    </div>
+    <div id="resultSection">
+      <h2>仿真结果</h2>
+      <img id="resultImage" src="" alt="仿真结果">
+    </div>
+    <div class="download-section">
+      <a href="/download">下载仿真实验结果</a>
+    </div>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+</html>
