@@ -5,7 +5,15 @@ import tempfile
 import os
 import plotly.io as pio
 import tempfile
+from PIL import Image
+import numpy as np
 
+def image_path_to_ndarray(image_path):
+    # 使用Pillow打开图像文件
+    image = Image.open(image_path)
+    # 将图像转换为numpy数组
+    image_array = np.array(image)
+    return image_array
 def save_plotly_fig_as_image(fig):
     # 创建一个临时文件
     temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.png', mode='w+b')
@@ -18,8 +26,12 @@ def save_simulation_results_to_tempdir(simulation_results):
     temp_dir = tempfile.mkdtemp()
     # 保存每个仿真结果到临时目录
     for i, simulation_result in enumerate(simulation_results):
+        image = Image.fromarray(simulation_result)
         temp_file_path = os.path.join(temp_dir, f'simulation_{i}.jpeg')
-        simulation_result.save(temp_file_path, 'JPEG')
+        # 使用Pillow的save方法保存图像
+        if image.mode == 'RGBA':
+            image = image.convert('RGB')
+        image.save(temp_file_path, 'JPEG')
     # 返回临时目录的路径
     return temp_dir
 def page1():
@@ -51,7 +63,8 @@ def page1():
             image_path = save_plotly_fig_as_image(fig)
             # 使用Streamlit显示图像
             st.image(image_path, caption='处理后图像', use_column_width=True)
-            simulate_results.append(image_path)
+            image_array=image_path_to_ndarray(image_path)
+            simulate_results.append(image_array)
         elif selected_action == "图像打击效果仿真":
             picture=simulate(selected_file)
             st.write("最终仿真效果如下：")
