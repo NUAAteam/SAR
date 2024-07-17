@@ -83,5 +83,6 @@ def simulate(uploaded_file=None):
 
   # Display the figure in Streamlit
   st.pyplot(fig)
+  return picture
 
 

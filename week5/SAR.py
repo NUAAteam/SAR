@@ -127,8 +127,8 @@ def sar(uploaded_file=None):
     yaxis=dict(showgrid=False, zeroline=False, visible=False)  # Hide y-axis lines, ticks, and labels
   )
   # Save the figure without borders
-  fig.write_image("./assets/image_without_borders.png")
-
+  #fig.write_image("./assets/image_without_borders.png")
+  return fig
 def plot_difference(original_picture, picture):
     # Compute the absolute difference
     difference = np.abs(original_picture.astype(int) - picture.astype(int))
