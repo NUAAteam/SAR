@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "chartjs-node-canvas": "^4.1.6",
+    "d3-random": "^3.0.1",
+    "fft-js": "^0.0.12",
+    "perlin-noise": "^0.0.1"
+  }
+}
