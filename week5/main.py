@@ -9,16 +9,16 @@ def main():
         "下载仿真实验结果"
     ])
 
+    storage_dir = None
     if page == "进行仿真实验":
         st.title("欢迎来到SAR图像仿真实验系统")
         #TODO 添加系统介绍
-        page1()
-
-
+        #返回存储路径
+        storage_dir=page1()
     elif page == "下载仿真实验结果":
         st.title("下载仿真实验结果")
         #TODO 添加下载界面
-        page2()
+        page2(storage_dir)
 
 
 if __name__ == "__main__":
