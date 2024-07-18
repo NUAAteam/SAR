@@ -1,61 +1,16 @@
-# 看code的疑惑
+```mermaid
+graph TD
+  A[两种仿真实验已经结束]--> |获得相应的数据|B[打击效果的评估] 
+  B[打击效果评估]-->|评估方法|C[基于变化检测的的 SAR 图像打击效果评估]
+  C-->D[图像配准]
+  C-->E[变化检测]
+  C-->F[打击效果评估]
+  D-->|手动选取控制点|j[不同时相的两幅遥感图像的配准]
+  E-->|根据特征变化大小|f[形态学滤波处理]
+  F-->|相应的毁伤评估准则|g[判定具体的毁伤情况]
+  j-->h1[配准实验及实验结果分析]
+  f-->h2[变化检测实验及结果分析]
+  g-->h3[毁伤实验评估及结果分析]
+  N[数据库或者磁盘导入实验图片]-->C
 
-1. #就是page1里面是进行自动保存到临时目录，simulate_results，但是page2是否需要调用这个simulate_results；
- 是否需要需要调用这个目录，然后在下载区域进行保存下载所需实验结果后，至关闭网页，才消失。
- 其次，这个临时目录我并不是很能理解大概是个什么样的存在，是在我关闭子页面后就自动清零保存结果吗
- 因为我打开第二个下载子页面时没有得到我想要看到图片
-
-
-2. 这个之后的其他功能我觉得没有进一步看到，目前好像做到这里，采用自动保存这个功能，来代替按键保存，我个人觉得挺方便的
-
-
-3. - 要在Streamlit中实现临时保存文件的返回结果，并在后续打开另一个子页面时进行长久保存直到关闭Streamlit之前，可以采用以下步骤的逻辑：
-
-    - 创建临时文件：在第一个页面中，使用临时文件夹（如Python的tempfile模块）来保存文件。
-    #这样可以确保文件在服务器上是临时的，并且通常会在程序结束后自动删除。
-
-    - 保存文件路径：将临时文件的路径保存在Streamlit的session_state中，这样可以在应用的不同页面之间共享文件路径。
-
-    - 在第二个页面中访问文件：在第二个子页面中，检查session_state以获取文件路径，然后根据需要处理或显示文件。
-
-    - 实现长久保存：提供一个选项让用户可以将文件从临时位置保存到一个更持久的位置。
-    - 这可以通过下载链接实现，或者将文件复制到服务器的另一个目录中，该目录不会在Streamlit应用关闭时清除。
-
-    - 清理：在Streamlit应用关闭前，确保清理所有不再需要的文件，如果它们没有被自动删除的话。
-
-```python
-import streamlit as st
-import tempfile
-import shutil
-import os
-
-def save_temp_file():
-    # 创建临时文件并写入内容
-    temp_dir = tempfile.mkdtemp()
-    temp_file_path = os.path.join(temp_dir, "temp_file.txt")
-    with open(temp_file_path, "w") as f:
-        f.write("这是一些临时保存的内容")
-    return temp_file_path
-
-def show_file_content(file_path):
-    # 显示文件内容
-    if os.path.exists(file_path):
-        with open(file_path, "r") as f:
-            st.write(f.read())
-    else:
-        st.error("文件不存在")
-
-if 'temp_file_path' not in st.session_state:
-    st.session_state.temp_file_path = save_temp_file()
-
-if st.button("显示临时文件内容"):
-    show_file_content(st.session_state.temp_file_path)
-
-if st.button("保存文件到持久位置"):
-    # 将文件复制到新位置
-    persistent_dir = "persistent_dir"
-    os.makedirs(persistent_dir, exist_ok=True)
-    persistent_file_path = os.path.join(persistent_dir, "saved_file.txt")
-    shutil.copy(st.session_state.temp_file_path, persistent_file_path)
-    st.success(f"文件已保存到 {persistent_file_path}")
 ```
