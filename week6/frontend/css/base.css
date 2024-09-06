@@ -6,6 +6,7 @@
   --text-dark: #212121;
   --background-light: #f5f5f5;
   --background-dark: #e0e0e0;
+  --primary-color-dark: #2980b9; /* 比主色稍深的颜色 */
 }
 
 * {

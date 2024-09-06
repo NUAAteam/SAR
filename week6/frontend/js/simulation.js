@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const uploadedImages = document.getElementById('uploaded-images');
     const imageSelect = document.getElementById('image-select');
     const damageSimulationButton = document.getElementById('damage-simulation');
+    const sarSimulationButton = document.getElementById('sar-simulation');
 
     // 检查是否有之前上传的图片
     const savedImages = JSON.parse(localStorage.getItem('uploadedImages')) || [];
@@ -69,6 +70,15 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Selected image name:', selectedImageName);
             // 使用 URL 参数传递选中的图片名称
             window.location.href = `damage_simulation.html?image=${encodeURIComponent(selectedImageName)}`;
+        } else {
+            alert('请先选择一张图片');
+        }
+    });
+
+    sarSimulationButton.addEventListener('click', function() {
+        const selectedImageName = imageSelect.value;
+        if (selectedImageName) {
+            window.location.href = `sar_simulation.html?image=${encodeURIComponent(selectedImageName)}`;
         } else {
             alert('请先选择一张图片');
         }
