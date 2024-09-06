@@ -24,21 +24,37 @@ body {
 header {
   background-color: var(--primary-color);
   color: var(--text-light);
-  padding: 1rem 0;
+  padding: 1rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
 }
 
 .logo img {
   height: 40px;
+  width: auto;
+}
+
+nav {
+  display: flex;
+  align-items: center;
 }
 
 nav ul {
   list-style-type: none;
   display: flex;
+  margin: 0;
+  padding: 0;
 }
 
 nav ul li {
-  margin-right: 1rem;
+  margin-left: 1.5rem;
 }
 
 nav ul li a {
@@ -104,4 +120,31 @@ footer a {
 
 footer a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav {
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  nav ul {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  nav ul li {
+    margin-left: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  nav ul li a {
+    display: block;
+    padding: 0.5rem 0;
+  }
 }

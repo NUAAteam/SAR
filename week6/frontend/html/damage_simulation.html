@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图像打击效果仿真</title>
+    <link rel="stylesheet" href="../css/damage_simulation.css">
+</head>
+<body>
+    <header>
+        <!-- 保持原有的header内容 -->
+        <div class="logo">
+            <img src="../img/logo.png" alt="SAR图像仿真系统logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">主页</a></li>
+                <li><a href="simulation.html">开始模拟</a></li>
+                <li><a href="help.html">帮助</a></li>
+                <li><a href="contact.html">联系我们</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>图像打击效果仿真</h1>
+
+        <section id="simulation-area">
+            <div id="image-container">
+                <img id="target-image" src="" alt="目标图像">
+                <canvas id="interaction-layer"></canvas>
+            </div>
+            <div id="parameters">
+                <h2>仿真参数</h2>
+                <div>
+                    <label for="dm">横向打击分辨度 (dm):</label>
+                    <input type="number" id="dm" value="1.0" step="0.1" min="0">
+                </div>
+                <div>
+                    <label for="dn">纵向打击分辨度 (dn):</label>
+                    <input type="number" id="dn" value="1.0" step="0.1" min="0">
+                </div>
+                <div>
+                    <label for="k">打击密度 (k):</label>
+                    <input type="number" id="k" value="1500" step="1" min="0">
+                </div>
+                <div>
+                    <label for="sigma">毁伤程度 (sigma):</label>
+                    <input type="number" id="sigma" value="1.0" step="0.1" min="0.01">
+                </div>
+                <div>
+                    <span>选中的坐标: </span>
+                    <span id="selected-coordinates">未选择</span>
+                </div>
+                <button id="start-simulation">开始仿真</button>
+            </div>
+        </section>
+
+        <section id="simulation-results" style="display: none;">
+            <h2>仿真结果</h2>
+            <img id="result-image" alt="仿真结果图像">
+        </section>
+    </main>
+
+    <footer>
+        <!-- 保持原有的footer内容 -->
+        <div class="footer-content">
+            <p>&copy; 2023-2024 SAR图像仿真系统. 保留所有权利。</p>
+            <ul>
+                <li><a href="privacy.html">隐私政策</a></li>
+                <li><a href="terms.html">使用条款</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="../js/damage_simulation.js"></script>
+</body>
+</html>

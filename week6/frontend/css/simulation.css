@@ -1,0 +1,165 @@
+@import url('base.css');
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+h1, h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+section {
+    background-color: var(--text-light);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+#image-upload {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-container {
+    margin-bottom: 1rem;
+}
+
+.upload-btn {
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.upload-btn:hover {
+    background-color: var(--primary-color);
+}
+
+#upload-status {
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+#uploaded-images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+#uploaded-images img {
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#upload-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+#image-file {
+    margin-bottom: 1rem;
+}
+
+button {
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--primary-color);
+}
+
+#image-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#image-select {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.5rem;
+    border: 1px solid var(--background-dark);
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+#simulation-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#simulation-options h2 {
+    margin-bottom: 1rem;
+}
+
+#simulation-options .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+#damage-simulation,
+#sar-simulation {
+    flex: 1;
+    max-width: 250px;
+}
+
+#simulation-results {
+    text-align: center;
+}
+
+#result-image img {
+    max-width: 100%;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+#save-damage-result,
+#save-sar-result {
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    #simulation-options .button-group {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #damage-simulation,
+    #sar-simulation {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    button {
+        width: 100%;
+        max-width: 300px;
+    }
+}
