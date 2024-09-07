@@ -157,3 +157,132 @@ h1, h2 {
 }
 
 /* 其他样式保持不变 */
+
+#image-registration {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.image-comparison {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.image-container {
+    width: 48%;
+    text-align: center;
+}
+
+.image-container img {
+    max-width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#registration-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.step {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.step.active {
+    background-color: #28a745;
+    color: white;
+}
+
+#result-comparison {
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+#result-comparison img {
+    max-width: 100%;
+    display: block;
+}
+
+#result-comparison .before-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#result-comparison .after-image {
+    position: relative;
+    z-index: 1;
+}
+
+.comparison-slider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px; /* 稍微增加宽度，使其更容易点击 */
+    background: rgba(255, 255, 255, 0.7); /* 增加不透明度，使其更明显 */
+    left: 50%;
+    cursor: ew-resize;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* 确保滑动条在最上层 */
+}
+
+.comparison-slider::after {
+    content: '';
+    position: absolute;
+    width: 20px; /* 增加手柄大小 */
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.slider-instruction {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 3;
+}
+
+/* 按钮样式 */
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+}

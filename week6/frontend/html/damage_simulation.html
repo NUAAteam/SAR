@@ -55,9 +55,32 @@
             </div>
         </section>
 
-        <section id="simulation-results" style="display: none;">
-            <h2>仿真结果</h2>
-            <img id="result-image" alt="仿真结果图像">
+        <!-- 保留图像配准部分 -->
+        <section id="image-registration" style="display: none;">
+            <h2>图像配准</h2>
+            <button id="start-registration" class="btn btn-primary">进行图像配准</button>
+            <div id="registration-process" style="display: none;">
+                <div class="image-comparison">
+                    <div class="image-container">
+                        <h3>仿真前</h3>
+                        <img id="before-image" alt="仿真前图像">
+                    </div>
+                    <div class="image-container">
+                        <h3>仿真后</h3>
+                        <img id="after-image" alt="仿真后图像">
+                    </div>
+                </div>
+                <div id="registration-steps">
+                    <div class="step" id="feature-detection">1. 特征点检测</div>
+                    <div class="step" id="feature-matching">2. 特征点匹配</div>
+                    <div class="step" id="transform-estimation">3. 变换估计</div>
+                    <div class="step" id="image-warping">4. 图像变形</div>
+                </div>
+                <div id="registration-result" style="display: none;">
+                    <h3>配准结果</h3>
+                    <div id="result-comparison"></div>
+                </div>
+            </div>
         </section>
     </main>
 
