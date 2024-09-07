@@ -7,12 +7,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const startRegistrationButton = document.getElementById('start-registration');
     const beforeImage = document.getElementById('before-image');
     const afterImage = document.getElementById('after-image');
+    const startAssessmentButton = document.getElementById('start-assessment');
+    const damageImage = document.getElementById('damage-image');
+    const damageStatistics = document.getElementById('damage-statistics');
+    const damageLevelSelector = document.getElementById('damage-level');
 
     let selectedX = null;
     let selectedY = null;
     let originalImageWidth = null;
     let originalImageHeight = null;
     let originalImageSrc = null;
+    let simulatedImage = null;
 
     // 从 URL 参数获取选中的图片名称
     const urlParams = new URLSearchParams(window.location.search);
@@ -29,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 originalImageWidth = img.width;
                 originalImageHeight = img.height;
                 targetImage.src = selectedImageDataURL;
+                originalImageSrc = selectedImageDataURL;  // 设置 originalImageSrc
                 updateInteractionLayer();
             };
             img.src = selectedImageDataURL;
@@ -109,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.image) {
                 originalImageSrc = targetImage.src;  // 保存原始图像
                 targetImage.src = 'data:image/png;base64,' + data.image;
+                simulatedImage = 'data:image/png;base64,' + data.image;
                 selectedX = null;
                 selectedY = null;
                 selectedCoordinates.textContent = '未选择';
@@ -154,8 +161,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('registration-result').style.display = 'block';
         const resultComparison = document.getElementById('result-comparison');
         resultComparison.innerHTML = `
-            <img src="${afterImage.src}" alt="配准结果">
+            <img src="${originalImageSrc}" alt="仿真前图像" class="before-image">
+            <img src="${afterImage.src}" alt="仿真后图像" class="after-image">
             <div class="comparison-slider"></div>
+            <p class="slider-instruction">拖动滑块或使用鼠标滚轮来比较仿真前后的图像</p>
         `;
         initComparisonSlider();
     }
@@ -171,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const afterImage = document.getElementById('after-image');
 
         resultComparison.innerHTML = `
-            <img src="${beforeImage.src}" alt="仿真前图像" class="before-image">
+            <img src="${originalImageSrc}" alt="仿真前图像" class="before-image">
             <img src="${afterImage.src}" alt="仿真后图像" class="after-image">
             <div class="comparison-slider"></div>
             <p class="slider-instruction">拖动滑块或使用鼠标滚轮来比较仿真前后的图像</p>
@@ -236,10 +245,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showMessage(message, type) {
-        // 如果你想保留 alert，可以使用下面的代码
-        // alert(message);
-
-        // 如果你想使用更友好的消息提示，可以使用下面的代码
         const messageContainer = document.getElementById('message-container');
         messageContainer.textContent = message;
         messageContainer.className = `message ${type}`;
