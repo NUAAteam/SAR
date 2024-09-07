@@ -30,11 +30,11 @@ document.addEventListener('DOMContentLoaded', function() {
             img.src = selectedImageDataURL;
         } else {
             console.error('No image data found for:', selectedImageName);
-            alert('无法加载图片数据，请返回上一页重新选择图片。');
+            showMessage('无法加载图片数据，请返回上一页重新选择图片。', 'error');
         }
     } else {
         console.error('No selected image name found in URL parameters');
-        alert('未选择图片，请返回上一页选择图片。');
+        showMessage('未选择图片，请返回上一页选择图片。', 'error');
     }
 
     function updateInteractionLayer() {
@@ -67,26 +67,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     startSimulationButton.addEventListener('click', async function() {
         if (selectedX === null || selectedY === null) {
-            alert('请先选择坐标');
+            showMessage('请先选择坐标', 'warning');
             return;
         }
 
         const selectedImageDataURL = localStorage.getItem(selectedImageName);
         if (!selectedImageDataURL) {
-            alert('图片数据不存在，请返回上一页重新选择图片。');
+            showMessage('图片数据不存在，请返回上一页重新选择图片。', 'error');
             return;
         }
+
+        showMessage('正在进行仿真...', 'info');
 
         const formData = new FormData();
         formData.append('image', dataURLtoBlob(selectedImageDataURL), selectedImageName);
         formData.append('dm', document.getElementById('dm').value);
         formData.append('dn', document.getElementById('dn').value);
-        formData.append('ic', selectedX.toString());  // 确保转换为字符串
-        formData.append('jc', selectedY.toString());  // 确保转换为字符串
+        formData.append('ic', selectedX.toString());
+        formData.append('jc', selectedY.toString());
         formData.append('k', document.getElementById('k').value);
         formData.append('sigma', document.getElementById('sigma').value);
 
-        console.log('Sending coordinates:', selectedX, selectedY);  // 添加日志
+        console.log('Sending coordinates:', selectedX, selectedY);
 
         try {
             const response = await fetch('http://localhost:5000/simulate', {
@@ -101,23 +103,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
 
             if (data.image) {
-                // 用仿真结果替换目标图像
                 targetImage.src = 'data:image/png;base64,' + data.image;
-                // 清除之前选择的坐标
                 selectedX = null;
                 selectedY = null;
                 selectedCoordinates.textContent = '未选择';
-                // 清除交互层上的标记
                 const ctx = interactionLayer.getContext('2d');
                 ctx.clearRect(0, 0, interactionLayer.width, interactionLayer.height);
-                // 显示仿真完成的消息
-                alert('仿真完成！您可以在图像上选择新的坐标进行下一次仿真。');
+                showMessage('仿真完成！您可以选择新的坐标进行下一次仿真。', 'success');
             } else {
                 throw new Error('No image data in response');
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('仿真失败: ' + error.message);
+            showMessage('仿真失败: ' + error.message, 'error');
         }
     });
 
@@ -134,5 +132,19 @@ document.addEventListener('DOMContentLoaded', function() {
             u8arr[n] = bstr.charCodeAt(n);
         }
         return new Blob([u8arr], {type: mime});
+    }
+
+    function showMessage(message, type) {
+        // 如果你想保留 alert，可以使用下面的代码
+        // alert(message);
+
+        // 如果你想使用更友好的消息提示，可以使用下面的代码
+        const messageContainer = document.getElementById('message-container');
+        messageContainer.textContent = message;
+        messageContainer.className = `message ${type}`;
+        messageContainer.style.display = 'block';
+        setTimeout(() => {
+            messageContainer.style.display = 'none';
+        }, 3000);
     }
 });
