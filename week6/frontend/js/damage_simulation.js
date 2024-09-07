@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 originalImageHeight = img.height;
                 targetImage.src = selectedImageDataURL;
                 originalImageSrc = selectedImageDataURL;  // 设置 originalImageSrc
+                beforeImage.src = originalImageSrc;  // 确保 beforeImage 显示原始图像
                 updateInteractionLayer();
             };
             img.src = selectedImageDataURL;
@@ -113,7 +114,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
 
             if (data.image) {
-                originalImageSrc = targetImage.src;  // 保存原始图像
                 targetImage.src = 'data:image/png;base64,' + data.image;
                 simulatedImage = 'data:image/png;base64,' + data.image;
                 selectedX = null;
@@ -121,14 +121,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 selectedCoordinates.textContent = '未选择';
                 const ctx = interactionLayer.getContext('2d');
                 ctx.clearRect(0, 0, interactionLayer.width, interactionLayer.height);
-                showMessage('仿真完成！您可以在图像上选择新的坐标进行下一次仿真。', 'success');
-
-                // 显示图像配准部分
+                showMessage('仿真完成！', 'success');
                 imageRegistration.style.display = 'block';
-
-                // 设置仿真前后的图像
-                beforeImage.src = originalImageSrc;
-                afterImage.src = targetImage.src;
+                afterImage.src = simulatedImage;  // 设置 afterImage 显示仿真后图像
             } else {
                 throw new Error('No image data in response');
             }
@@ -176,18 +171,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let sliderPosition = 0.5; // 初始位置在中间
 
         // 确保两张图片都已加载
-        const beforeImage = document.getElementById('before-image');
-        const afterImage = document.getElementById('after-image');
-
-        resultComparison.innerHTML = `
-            <img src="${originalImageSrc}" alt="仿真前图像" class="before-image">
-            <img src="${afterImage.src}" alt="仿真后图像" class="after-image">
-            <div class="comparison-slider"></div>
-            <p class="slider-instruction">拖动滑块或使用鼠标滚轮来比较仿真前后的图像</p>
-        `;
-
-        // 重新获取slider元素，因为我们刚刚重新创建了DOM
-        slider = resultComparison.querySelector('.comparison-slider');
         const beforeResultImage = resultComparison.querySelector('.before-image');
         const afterResultImage = resultComparison.querySelector('.after-image');
 
