@@ -335,3 +335,116 @@ h1, h2 {
 }
 
 /* 添加其他必要的样式 */
+
+/* 毁伤评估部分样式 */
+#damage-assessment {
+    background-color: var(--background-light);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+#damage-assessment h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+#start-assessment {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+#start-assessment:hover {
+    background-color: var(--primary-color-dark);
+    transform: translateY(-2px);
+}
+
+#start-assessment:active {
+    transform: translateY(1px);
+}
+
+#assessment-result {
+    margin-top: 2rem;
+}
+
+#assessment-result h3 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+#damage-image-container {
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#damage-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+#damage-statistics {
+    background-color: var(--background-light);
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#damage-statistics p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: var(--text-dark);
+}
+
+#damage-level-selector {
+    margin-top: 1.5rem;
+}
+
+#damage-level-selector h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+#damage-level {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: white;
+    color: var(--text-dark);
+}
+
+/* 响应式设计 */
+@media (min-width: 768px) {
+    #damage-assessment {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    #damage-image-container {
+        flex: 0 0 48%;
+    }
+
+    #damage-statistics {
+        flex: 0 0 48%;
+    }
+
+    #damage-level-selector {
+        flex: 0 0 100%;
+    }
+}
