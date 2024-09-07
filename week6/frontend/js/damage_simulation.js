@@ -162,6 +162,9 @@ document.addEventListener('DOMContentLoaded', function() {
             <p class="slider-instruction">拖动滑块或使用鼠标滚轮来比较仿真前后的图像</p>
         `;
         initComparisonSlider();
+
+        // 显示毁伤评估按钮
+        document.getElementById('damage-assessment').style.display = 'block';
     }
 
     function initComparisonSlider() {
@@ -211,6 +214,45 @@ document.addEventListener('DOMContentLoaded', function() {
         // 初始化滑块位置
         updateSliderPosition();
     }
+
+    startAssessmentButton.addEventListener('click', async function() {
+        showMessage('正在进行毁伤评估...', 'info');
+
+        const formData = new FormData();
+        formData.append('original_image', dataURLtoBlob(originalImageSrc), 'original_image.png');
+        formData.append('simulated_image', dataURLtoBlob(afterImage.src), 'simulated_image.png');
+
+        try {
+            const response = await fetch('http://localhost:5000/assess_damage', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.damage_image) {
+                damageImage.src = 'data:image/png;base64,' + data.damage_image;
+                damageStatistics.innerHTML = `
+                    <p>无毁伤: ${data.damage_statistics[0].toFixed(2)}%</p>
+                    <p>1级毁伤: ${data.damage_statistics[1].toFixed(2)}%</p>
+                    <p>2级毁伤: ${data.damage_statistics[2].toFixed(2)}%</p>
+                    <p>3级毁伤: ${data.damage_statistics[3].toFixed(2)}%</p>
+                    <p>4级毁伤: ${data.damage_statistics[4].toFixed(2)}%</p>
+                `;
+                showMessage('毁伤评估完成！', 'success');
+                document.getElementById('assessment-result').style.display = 'block';
+            } else {
+                throw new Error('No damage image data in response');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showMessage('毁伤评估失败: ' + error.message, 'error');
+        }
+    });
 
     function dataURLtoBlob(dataURL) {
         if (!dataURL) {
