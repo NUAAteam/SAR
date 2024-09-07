@@ -1,20 +1,22 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file, make_response
 from flask_cors import CORS
 import cv2
 import numpy as np
 import base64
+from io import BytesIO
 from simulation import simulate
 from PIL import Image
 import io
 from SAR import sar
-from damage_assessment_with_registration import register_images, damage_assessment, visualize_damage, calculate_damage_statistics
+from damage_assessment_with_registration import damage_assessment, calculate_damage_statistics, visualize_damage
 
 app = Flask(__name__)
 CORS(app)
 
-# 全局变量来存储图像
+# 全局变量来存储图像和统计数据
 original_image = None
 simulated_image = None
+damage_statistics = None
 
 @app.route('/simulate', methods=['POST'])
 def api_simulate():
@@ -65,28 +67,32 @@ def sar_simulate():
 
 @app.route('/assess_damage', methods=['POST'])
 def assess_damage():
-    global original_image, simulated_image
+    global original_image, simulated_image, damage_statistics
     if original_image is None or simulated_image is None:
         return jsonify({'error': 'No images to assess'}), 400
 
     # 执行毁伤评估
-    damage_levels, diff_image = damage_assessment(original_image, simulated_image, window_size=3)
+    damage_levels, diff_image = damage_assessment(original_image, simulated_image)
 
     # 计算毁伤统计
-    damage_counts, damage_percentages = calculate_damage_statistics(damage_levels)
+    damage_counts, damage_statistics = calculate_damage_statistics(damage_levels)
 
-    # 将原始图像转换为base64编码
-    _, buffer_original = cv2.imencode('.png', original_image)
-    original_img_str = base64.b64encode(buffer_original).decode('utf-8')
+    # 可视化结果
+    result_image = visualize_damage(simulated_image, damage_levels)
 
-    # 将毁伤数据转换为base64编码
-    damage_data_str = base64.b64encode(damage_levels.tobytes()).decode('utf-8')
+    # 将结果图像转换为字节流
+    _, buffer = cv2.imencode('.png', result_image)
+    img_byte_arr = BytesIO(buffer)
 
-    return jsonify({
-        'original_image': original_img_str,
-        'damage_data': damage_data_str,
-        'damage_statistics': damage_percentages
-    })
+    # 发送图像
+    return send_file(img_byte_arr, mimetype='image/png')
+
+@app.route('/get_damage_statistics', methods=['GET'])
+def get_damage_statistics():
+    global damage_statistics
+    if damage_statistics is None:
+        return jsonify({'error': 'No damage statistics available'}), 400
+    return jsonify({'damage_statistics': damage_statistics})
 
 @app.errorhandler(500)
 def internal_error(error):

@@ -269,10 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 在毁伤评估完成后调用这个函数
     function initializeDamageVisualization(damageImageData, originalImage) {
-        damageData = new Uint8Array(damageImageData.length);
-        for (let i = 0; i < damageImageData.length; i++) {
-            damageData[i] = damageImageData.charCodeAt(i);
-        }
+        damageData = new Uint8Array(damageImageData);
 
         damageCanvas.width = originalImage.width;
         damageCanvas.height = originalImage.height;
@@ -290,50 +287,99 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDamageImage('all');
     }
 
-    startAssessmentButton.addEventListener('click', async function() {
+    startAssessmentButton.addEventListener('click', assessDamage);
+
+    function assessDamage() {
         showMessage('正在进行毁伤评估...', 'info');
 
-        const formData = new FormData();
-        formData.append('original_image', dataURLtoBlob(originalImageSrc), 'original_image.png');
-        formData.append('simulated_image', dataURLtoBlob(afterImage.src), 'simulated_image.png');
-
-        try {
-            const response = await fetch('http://localhost:5000/assess_damage', {
-                method: 'POST',
-                body: formData
-            });
-
+        fetch('http://localhost:5000/assess_damage', {
+            method: 'POST'
+        })
+        .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
+            return response.blob();
+        })
+        .then(blob => {
+            // 创建一个 URL 对象
+            const imageUrl = URL.createObjectURL(blob);
 
-            const data = await response.json();
+            // 设置图像源
+            damageImage.src = imageUrl;
 
-            if (data.original_image && data.damage_data) {
-                const originalImage = new Image();
-                originalImage.onload = function() {
-                    initializeDamageVisualization(atob(data.damage_data), originalImage);
-                };
-                originalImage.src = 'data:image/png;base64,' + data.original_image;
-
-                damageStatistics.innerHTML = `
-                    <p>无毁伤: ${data.damage_statistics['0'].toFixed(2)}%</p>
-                    <p>1级毁伤: ${data.damage_statistics['1'].toFixed(2)}%</p>
-                    <p>2级毁伤: ${data.damage_statistics['2'].toFixed(2)}%</p>
-                    <p>3级毁伤: ${data.damage_statistics['3'].toFixed(2)}%</p>
-                    <p>4级毁伤: ${data.damage_statistics['4'].toFixed(2)}%</p>
-                `;
-                showMessage('毁伤评估完成！', 'success');
+            // 当图像加载完成时显示
+            damageImage.onload = function() {
+                damageImage.style.display = 'block';
                 document.getElementById('assessment-result').style.display = 'block';
-                document.getElementById('damage-assessment').style.display = 'block';
-            } else {
-                throw new Error('No damage data in response');
-            }
-        } catch (error) {
+            };
+
+            // 获取并解析毁伤统计数据
+            return fetch('http://localhost:5000/get_damage_statistics');
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 更新统计数据
+            updateDamageStatistics(data.damage_statistics);
+            showMessage('毁伤评估完成！', 'success');
+        })
+        .catch(error => {
             console.error('Error:', error);
             showMessage('毁伤评估失败: ' + error.message, 'error');
+        });
+    }
+
+    function updateDamageStatistics(statistics) {
+        let html = '<ul class="damage-stats-list">';
+        const damageLabels = {
+            1: '轻微毁伤',
+            2: '中等毁伤',
+            3: '严重毁伤',
+            4: '完全毁伤'
+        };
+        for (let level in statistics) {
+            if (level == 0) continue; // 跳过无毁伤
+            const percentage = statistics[level].toFixed(2);
+            let barWidth = Math.min(percentage * 10, 100);
+            html += `
+                <li class="damage-stat-item level-${level}">
+                    <span class="damage-level">${damageLabels[level]}</span>
+                    <div class="damage-bar-container">
+                        <div class="damage-bar" style="width: ${barWidth}%"></div>
+                        <span class="damage-percentage">${percentage}%</span>
+                    </div>
+                </li>`;
         }
+        html += '</ul>';
+        damageStatistics.innerHTML = html;
+    }
+
+    damageLevelSelector.addEventListener('change', function() {
+        const selectedLevel = this.value;
+        updateDamageDescription(selectedLevel);
+        // 这里可以添加更新图像显示的逻辑，如果需要的话
     });
+
+    function updateDamageDescription(level) {
+        const descriptions = {
+            'all': '显示所有毁伤等级',
+            '1': '1级毁伤 (轻微损伤): 目标表面有轻微划痕或凹陷，功能基本不受影响。',
+            '2': '2级毁伤 (中等损伤): 目标表面有明显损坏，部分功能可能受到影响。',
+            '3': '3级毁伤 (严重损伤): 目标结构受到严重破坏，大部分功能丧失。',
+            '4': '4级毁伤 (完全损毁): 目标完全被摧毁，无法修复。'
+        };
+        damageDescription.textContent = descriptions[level];
+    }
+
+    function showMessage(message, type) {
+        const messageContainer = document.getElementById('message-container');
+        messageContainer.textContent = message;
+        messageContainer.className = `message ${type}`;
+        messageContainer.style.display = 'block';
+        setTimeout(() => {
+            messageContainer.style.display = 'none';
+        }, 5000);
+    }
 
     function dataURLtoBlob(dataURL) {
         if (!dataURL) {
@@ -350,13 +396,21 @@ document.addEventListener('DOMContentLoaded', function() {
         return new Blob([u8arr], {type: mime});
     }
 
-    function showMessage(message, type) {
-        const messageContainer = document.getElementById('message-container');
-        messageContainer.textContent = message;
-        messageContainer.className = `message ${type}`;
-        messageContainer.style.display = 'block';
-        setTimeout(() => {
-            messageContainer.style.display = 'none';
-        }, 6000);
+    // 添加颜色图例
+    function addColorLegend() {
+        let legendHtml = `
+            <div class="color-legend">
+                <div><span style="background-color: yellow;"></span> 1级毁伤</div>
+                <div><span style="background-color: green;"></span> 2级毁伤</div>
+                <div><span style="background-color: red;"></span> 3级毁伤</div>
+                <div><span style="background-color: blue;"></span> 4级毁伤</div>
+            </div>
+        `;
+        $('#colorLegend').html(legendHtml);
     }
+
+    // 在页面加载时调用
+    $(document).ready(function() {
+        addColorLegend();
+    });
 });

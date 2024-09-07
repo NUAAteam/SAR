@@ -58,22 +58,26 @@ def visualize_damage(original_image, damage_levels):
     # 创建一个彩色掩码来表示不同的毁伤等级
     color_mask = np.zeros_like(original_image)
     color_mask[damage_levels == 1] = [0, 255, 255]   # 黄色：1级毁伤
-    color_mask[damage_levels == 2] = [0, 128, 255]   # 橙色：2级毁伤
+    color_mask[damage_levels == 2] = [0, 255, 0]     # 绿色：2级毁伤
     color_mask[damage_levels == 3] = [0, 0, 255]     # 红色：3级毁伤
-    color_mask[damage_levels == 4] = [255, 0, 255]   # 紫色：4级毁伤
+    color_mask[damage_levels == 4] = [255, 0, 0]     # 蓝色：4级毁伤
 
     # 创建一个半透明的黑色背景
     dark_background = np.zeros_like(original_image)
-    result = cv2.addWeighted(original_image, 0.7, dark_background, 0.3, 0)
+    result = cv2.addWeighted(original_image, 0.6, dark_background, 0.4, 0)
 
     # 将毁伤区域叠加到结果图像上
-    alpha = 0.6  # 透明度
+    alpha = 0.7  # 透明度
     mask = damage_levels > 0
     result[mask] = cv2.addWeighted(result[mask], 1 - alpha, color_mask[mask], alpha, 0)
 
-    # 应用锐化滤波器
-    kernel = np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]])
-    result = cv2.filter2D(result, -1, kernel)
+    # 应用轻微的对比度增强
+    lab = cv2.cvtColor(result, cv2.COLOR_BGR2LAB)
+    l, a, b = cv2.split(lab)
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    cl = clahe.apply(l)
+    limg = cv2.merge((cl,a,b))
+    result = cv2.cvtColor(limg, cv2.COLOR_LAB2BGR)
 
     return result
 

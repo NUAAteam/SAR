@@ -467,3 +467,65 @@ h1, h2 {
         flex: 0 0 100%;
     }
 }
+
+.damage-stats-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.damage-stat-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.damage-level {
+    flex: 0 0 100px;
+    font-weight: bold;
+}
+
+.damage-bar-container {
+    flex-grow: 1;
+    height: 24px;
+    background-color: #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.damage-bar {
+    height: 100%;
+    transition: width 0.5s ease-in-out;
+}
+
+.damage-percentage {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 为不同级别的毁伤设置不同的颜色 */
+.level-1 .damage-bar { background-color: #FFC107; } /* 黄色 */
+.level-2 .damage-bar { background-color: #FF9800; } /* 橙色 */
+.level-3 .damage-bar { background-color: #F44336; } /* 红色 */
+.level-4 .damage-bar { background-color: #9C27B0; } /* 紫色 */
+
+/* 添加一个小标记，表示实际比例 */
+.damage-bar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #000;
+}
