@@ -286,3 +286,52 @@ h1, h2 {
 .btn-primary:active {
     transform: translateY(1px);
 }
+.content-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
+.simulation-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#image-container {
+    flex: 1;
+    margin-right: 20px;
+    position: relative;
+}
+
+#parameters {
+    flex: 0 0 300px;
+}
+
+#target-image, #interaction-layer {
+    width: 100%;
+    height: auto;
+}
+
+#interaction-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* 添加其他必要的样式 */

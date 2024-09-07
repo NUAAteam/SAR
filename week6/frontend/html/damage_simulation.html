@@ -82,6 +82,31 @@
                 </div>
             </div>
         </section>
+
+        <!-- 新增：毁伤评估部分 -->
+        <section id="damage-assessment" style="display: none;">
+            <h2>毁伤评估</h2>
+            <button id="start-assessment" class="btn btn-primary">开始毁伤评估</button>
+            <div id="assessment-result" style="display: none;">
+                <h3>评估结果</h3>
+                <div id="damage-image-container">
+                    <img id="damage-image" alt="毁伤评估结果图像">
+                </div>
+                <div id="damage-statistics">
+                    <!-- 这里将显示毁伤统计数据 -->
+                </div>
+                <div id="damage-level-selector">
+                    <h4>选择毁伤等级：</h4>
+                    <select id="damage-level">
+                        <option value="all">全部</option>
+                        <option value="1">1级毁伤</option>
+                        <option value="2">2级毁伤</option>
+                        <option value="3">3级毁伤</option>
+                        <option value="4">4级毁伤</option>
+                    </select>
+                </div>
+            </div>
+        </section>
     </main>
 
     <div id="message-container" class="message" style="display: none;"></div>
