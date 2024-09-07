@@ -72,21 +72,19 @@ def assess_damage():
     # 执行毁伤评估
     damage_levels, diff_image = damage_assessment(original_image, simulated_image, window_size=3)
 
-    # 可视化结果
-    result_image = visualize_damage(original_image, damage_levels)
-
-    # 将结果图像转换为灰度图像
-    result_image_gray = cv2.cvtColor(result_image, cv2.COLOR_BGR2GRAY)
-
     # 计算毁伤统计
     damage_counts, damage_percentages = calculate_damage_statistics(damage_levels)
 
-    # 将结果图片转换为base64编码
-    _, buffer = cv2.imencode('.png', result_image_gray)
-    damage_img_str = base64.b64encode(buffer).decode('utf-8')
+    # 将原始图像转换为base64编码
+    _, buffer_original = cv2.imencode('.png', original_image)
+    original_img_str = base64.b64encode(buffer_original).decode('utf-8')
+
+    # 将毁伤数据转换为base64编码
+    damage_data_str = base64.b64encode(damage_levels.tobytes()).decode('utf-8')
 
     return jsonify({
-        'damage_image': damage_img_str,
+        'original_image': original_img_str,
+        'damage_data': damage_data_str,
         'damage_statistics': damage_percentages
     })
 
