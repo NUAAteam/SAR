@@ -1,0 +1,8 @@
+Flask==3.0.3
+Flask_Cors==5.0.0
+numpy==2.1.1
+opencv-python-headless==4.10.0.84
+Pillow==10.4.0
+plotly==5.20.0
+scipy==1.14.1
+scikit-image==0.23.2
