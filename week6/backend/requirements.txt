@@ -1,9 +1,0 @@
-opencv-python
-streamlit
-numpy
-matplotlib
-plotly
-Pillow
-scikit-image
-kaleido
-noise

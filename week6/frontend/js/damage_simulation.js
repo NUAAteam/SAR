@@ -10,8 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const startAssessmentButton = document.getElementById('start-assessment');
     const damageImage = document.getElementById('damage-image');
     const damageStatistics = document.getElementById('damage-statistics');
-    const damageLevelSelector = document.getElementById('damage-level');
-    const damageDescription = document.getElementById('damage-description');
     const damageCanvas = document.createElement('canvas');
     const damageImageContainer = document.getElementById('damage-image-container');
 
@@ -22,21 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let originalImageSrc = null;
     let simulatedImage = null;
     let damageData = null; // 用于存储毁伤数据
-
-    const damageLevelDescriptions = {
-        'all': '显示所有毁伤等级',
-        '1': '1级毁伤 (轻微损伤): 目标表面有轻微划痕或凹陷，功能基本不受影响。损伤范围：0-25%',
-        '2': '2级毁伤 (中等损伤): 目标表面有明显损坏，部分功能可能受到影响。损伤范围：26-50%',
-        '3': '3级毁伤 (严重损伤): 目标结构受到严重破坏，大部分功能丧失。损伤范围：51-75%',
-        '4': '4级毁伤 (完全损毁): 目标完全被摧毁，无法修复。损伤范围：76-100%'
-    };
-
-    const damageLevelColors = {
-        '1': [255, 255, 0, 128],   // 黄色，半透明
-        '2': [255, 165, 0, 128],   // 橙色，半透明
-        '3': [255, 0, 0, 128],     // 红色，半透明
-        '4': [128, 0, 128, 128]    // 紫色，半透明
-    };
 
     // 从 URL 参数获取选中的图片名称
     const urlParams = new URLSearchParams(window.location.search);
@@ -234,59 +217,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSliderPosition();
     }
 
-    damageLevelSelector.addEventListener('change', function() {
-        const selectedLevel = this.value;
-        damageDescription.textContent = damageLevelDescriptions[selectedLevel];
-        updateDamageImage(selectedLevel);
-    });
-
-    function updateDamageImage(selectedLevel) {
-        if (!damageData) return;
-
-        const ctx = damageCanvas.getContext('2d');
-        const imageData = ctx.getImageData(0, 0, damageCanvas.width, damageCanvas.height);
-        const data = imageData.data;
-
-        for (let i = 0; i < data.length; i += 4) {
-            const pixelDamageLevel = damageData[i / 4];
-            if (selectedLevel === 'all' || parseInt(selectedLevel) === pixelDamageLevel) {
-                if (pixelDamageLevel > 0) {
-                    const color = damageLevelColors[pixelDamageLevel];
-                    data[i] = color[0];     // R
-                    data[i + 1] = color[1]; // G
-                    data[i + 2] = color[2]; // B
-                    data[i + 3] = color[3]; // A
-                } else {
-                    data[i + 3] = 0; // 完全透明
-                }
-            } else {
-                data[i + 3] = 0; // 完全透明
-            }
-        }
-
-        ctx.putImageData(imageData, 0, 0);
-    }
-
-    // 在毁伤评估完成后调用这个函数
-    function initializeDamageVisualization(damageImageData, originalImage) {
-        damageData = new Uint8Array(damageImageData);
-
-        damageCanvas.width = originalImage.width;
-        damageCanvas.height = originalImage.height;
-
-        const ctx = damageCanvas.getContext('2d');
-        ctx.drawImage(originalImage, 0, 0);
-
-        damageImageContainer.innerHTML = '';
-        damageImageContainer.appendChild(originalImage);
-        damageImageContainer.appendChild(damageCanvas);
-        damageCanvas.style.position = 'absolute';
-        damageCanvas.style.top = '0';
-        damageCanvas.style.left = '0';
-
-        updateDamageImage('all');
-    }
-
     startAssessmentButton.addEventListener('click', assessDamage);
 
     function assessDamage() {
@@ -302,24 +232,16 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.blob();
         })
         .then(blob => {
-            // 创建一个 URL 对象
             const imageUrl = URL.createObjectURL(blob);
-
-            // 设置图像源
             damageImage.src = imageUrl;
-
-            // 当图像加载完成时显示
             damageImage.onload = function() {
                 damageImage.style.display = 'block';
                 document.getElementById('assessment-result').style.display = 'block';
             };
-
-            // 获取并解析毁伤统计数据
             return fetch('http://localhost:5000/get_damage_statistics');
         })
         .then(response => response.json())
         .then(data => {
-            // 更新统计数据
             updateDamageStatistics(data.damage_statistics);
             showMessage('毁伤评估完成！', 'success');
         })
@@ -352,23 +274,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         html += '</ul>';
         damageStatistics.innerHTML = html;
-    }
-
-    damageLevelSelector.addEventListener('change', function() {
-        const selectedLevel = this.value;
-        updateDamageDescription(selectedLevel);
-        // 这里可以添加更新图像显示的逻辑，如果需要的话
-    });
-
-    function updateDamageDescription(level) {
-        const descriptions = {
-            'all': '显示所有毁伤等级',
-            '1': '1级毁伤 (轻微损伤): 目标表面有轻微划痕或凹陷，功能基本不受影响。',
-            '2': '2级毁伤 (中等损伤): 目标表面有明显损坏，部分功能可能受到影响。',
-            '3': '3级毁伤 (严重损伤): 目标结构受到严重破坏，大部分功能丧失。',
-            '4': '4级毁伤 (完全损毁): 目标完全被摧毁，无法修复。'
-        };
-        damageDescription.textContent = descriptions[level];
     }
 
     function showMessage(message, type) {

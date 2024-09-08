@@ -416,37 +416,6 @@ h1, h2 {
     color: var(--text-dark);
 }
 
-#damage-level-selector {
-    margin-top: 1.5rem;
-}
-
-#damage-level-selector h4 {
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
-}
-
-#damage-level {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background-color: white;
-    color: var(--text-dark);
-    margin-bottom: 1rem;
-}
-
-#damage-description {
-    background-color: var(--background-light);
-    padding: 1rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    color: var(--text-dark);
-    line-height: 1.4;
-    border: 1px solid var(--border-color);
-}
-
 /* 响应式设计 */
 @media (min-width: 768px) {
     #damage-assessment {
@@ -461,10 +430,6 @@ h1, h2 {
 
     #damage-statistics {
         flex: 0 0 48%;
-    }
-
-    #damage-level-selector {
-        flex: 0 0 100%;
     }
 }
 

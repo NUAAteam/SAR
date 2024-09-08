@@ -57,7 +57,7 @@ def sar_simulate():
     # 调用SAR仿真函数
     result_img_data = sar(image_data, x, y, threshold, b)
 
-    # 将图像数据转换为灰度图像
+    # 将图像数据转换为灰度图��
     result_img_gray = cv2.cvtColor(result_img_data, cv2.COLOR_BGR2GRAY)
 
     # 将图像数据转换为base64编码的字符串
@@ -97,6 +97,10 @@ def get_damage_statistics():
 @app.errorhandler(500)
 def internal_error(error):
     return jsonify({'error': 'Internal Server Error'}), 500
+
+@app.route('/api/hello')
+def hello():
+    return jsonify(message="Hello from the backend!")
 
 if __name__ == '__main__':
     app.run(debug=True)
