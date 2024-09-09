@@ -52,28 +52,38 @@ def api_simulate():
 
 @app.route('/sar_simulate', methods=['POST'])
 def sar_simulate():
-    if 'image' not in request.files:
-        return jsonify({'error': 'No image file'}), 400
+    try:
+        if 'image' not in request.files:
+            return jsonify({'error': 'No image file'}), 400
 
-    file = request.files['image']
-    image_data = file.read()
+        file = request.files['image']
+        image_data = file.read()
 
-    b = float(request.form['b'])
-    threshold = int(request.form['threshold'])
-    x = int(request.form['x'])
-    y = int(request.form['y'])
+        b = float(request.form['b'])
+        threshold = int(request.form['threshold'])
+        x = int(request.form['x'])
+        y = int(request.form['y'])
 
-    # 调用SAR仿真函数
-    result_img_data = sar(image_data, x, y, threshold, b)
+        # 调用SAR仿真函数
+        result_img_data = sar(image_data, x, y, threshold, b)
 
-    # 将图像数据转换为灰度图
-    result_img_gray = cv2.cvtColor(result_img_data, cv2.COLOR_BGR2GRAY)
+        app.logger.info(f"Type of result_img_data: {type(result_img_data)}")
+        app.logger.info(f"Shape of result_img_data: {result_img_data.shape if hasattr(result_img_data, 'shape') else 'No shape attribute'}")
 
-    # 将图像数据转换为base64编码的字符串
-    _, buffer = cv2.imencode('.png', result_img_gray)
-    img_str = base64.b64encode(buffer).decode('utf-8')
+        # result_img_data 现在应该是一个 2D numpy 数组，不需要转换为灰度
+        result_img_gray = result_img_data
 
-    return jsonify({'image': img_str})
+        # 将图像数据转换为base64编码的字符串
+        _, buffer = cv2.imencode('.png', result_img_gray)
+        img_str = base64.b64encode(buffer).decode('utf-8')
+
+        return jsonify({'image': img_str})
+
+    except Exception as e:
+        app.logger.error(f"Error in sar_simulate: {str(e)}", exc_info=True)
+        if isinstance(e, cv2.error):
+            app.logger.error(f"OpenCV Error: {e.err}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/assess_damage', methods=['POST'])
 def assess_damage():

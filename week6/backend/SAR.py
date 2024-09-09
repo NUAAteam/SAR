@@ -5,7 +5,7 @@ import io
 
 def region_growing(img, seed, threshold):
     mask = np.zeros(img.shape, dtype=bool)
-    seed_value = img[seed]
+    seed_value = int(img[seed])
     mask[seed] = True
     neighbors = [(0,1), (1,0), (0,-1), (-1,0)]
     stack = [seed]
@@ -14,7 +14,7 @@ def region_growing(img, seed, threshold):
         for dx, dy in neighbors:
             nx, ny = x + dx, y + dy
             if 0 <= nx < img.shape[0] and 0 <= ny < img.shape[1]:
-                if not mask[nx, ny] and abs(img[nx, ny] - seed_value) <= threshold:
+                if not mask[nx, ny] and abs(int(img[nx, ny]) - seed_value) <= threshold:
                     mask[nx, ny] = True
                     stack.append((nx, ny))
     return mask
@@ -63,4 +63,4 @@ def sar(image_data, x, y, threshold, b):
     result_img.save(img_byte_arr, format='PNG')
     img_byte_arr = img_byte_arr.getvalue()
 
-    return img_byte_arr
+    return result

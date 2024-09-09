@@ -96,7 +96,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		showMessage("正在进行仿真...", "info");
 
 		const formData = new FormData();
-		formData.append("image", dataURLtoBlob(selectedImageDataURL), selectedImageName);
+		formData.append(
+			"image",
+			dataURLtoBlob(selectedImageDataURL),
+			selectedImageName
+		);
 		formData.append("dm", document.getElementById("dm").value);
 		formData.append("dn", document.getElementById("dn").value);
 		formData.append("ic", selectedX.toString());
@@ -228,32 +232,43 @@ document.addEventListener("DOMContentLoaded", function () {
 	startAssessmentButton.addEventListener("click", assessDamage);
 
 	function assessDamage() {
+		console.log("Sending assess_damage request");
+		console.log("Original image:", originalImageSrc ? "exists" : "missing");
+		console.log("Simulated image:", simulatedImage ? "exists" : "missing");
 		showMessage("正在进行毁伤评估...", "info");
 
 		const formData = new FormData();
-		formData.append('original_image', dataURLtoBlob(originalImageSrc), 'original.png');
-		formData.append('simulated_image', dataURLtoBlob(simulatedImage), 'simulated.png');
+		formData.append(
+			"original_image",
+			dataURLtoBlob(originalImageSrc),
+			"original.png"
+		);
+		formData.append(
+			"simulated_image",
+			dataURLtoBlob(simulatedImage),
+			"simulated.png"
+		);
 
 		fetch("/assess_damage", {
 			method: "POST",
-			body: formData
+			body: formData,
 		})
-		.then(response => {
-			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}`);
-			}
-			return response.json();
-		})
-		.then(data => {
-			// 处理返回的数据
-			updateDamageStatistics(data.damage_statistics);
-			showDamageImage(data.image);
-			showMessage("毁伤评估完成！", "success");
-		})
-		.catch(error => {
-			console.error("Error:", error);
-			showMessage("毁伤评估失败: " + error.message, "error");
-		});
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				return response.json();
+			})
+			.then((data) => {
+				// 处理返回的数据
+				updateDamageStatistics(data.damage_statistics);
+				showDamageImage(data.image);
+				showMessage("毁伤评估完成！", "success");
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+				showMessage("毁伤评估失败: " + error.message, "error");
+			});
 	}
 
 	function updateDamageStatistics(statistics) {
@@ -311,24 +326,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 		return new Blob([u8arr], { type: mime });
 	}
-
-	// 添加颜色图例
-	function addColorLegend() {
-		let legendHtml = `
-            <div class="color-legend">
-                <div><span style="background-color: yellow;"></span> 1级毁伤</div>
-                <div><span style="background-color: green;"></span> 2级毁伤</div>
-                <div><span style="background-color: red;"></span> 3级毁伤</div>
-                <div><span style="background-color: blue;"></span> 4级毁伤</div>
-            </div>
-        `;
-		$("#colorLegend").html(legendHtml);
-	}
-
-	// 在页面加载时调用
-	$(document).ready(function () {
-		addColorLegend();
-	});
 
 	function clearSimulationCache() {
 		// 清除与上一次仿真相关的任何缓存数据
