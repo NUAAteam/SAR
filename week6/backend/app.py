@@ -20,14 +20,23 @@ damage_statistics = None
 
 @app.route('/simulate', methods=['POST'])
 def api_simulate():
-    global original_image, simulated_image
     # 获取上传的图片和参数
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image file uploaded'}), 400
+
     file = request.files['image']
+    if file.filename == '':
+        return jsonify({'error': 'No selected image file'}), 400
+
     params = request.form.to_dict()
 
-    # 读取图片并保存为原始图像
+    # 读取图片
+    image_data = file.read()
+    nparr = np.frombuffer(image_data, np.uint8)
+    original_image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
     if original_image is None:
-        original_image = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
+        return jsonify({'error': 'Failed to decode image'}), 400
 
     # 调用模拟函数
     simulated_image = simulate(original_image.copy(), params)
@@ -57,19 +66,29 @@ def sar_simulate():
     # 调用SAR仿真函数
     result_img_data = sar(image_data, x, y, threshold, b)
 
-    # 将图像数据转换为灰度图��
+    # 将图像数据转换为灰度图
     result_img_gray = cv2.cvtColor(result_img_data, cv2.COLOR_BGR2GRAY)
 
     # 将图像数据转换为base64编码的字符串
-    img_str = base64.b64encode(result_img_gray).decode()
+    _, buffer = cv2.imencode('.png', result_img_gray)
+    img_str = base64.b64encode(buffer).decode('utf-8')
 
     return jsonify({'image': img_str})
 
 @app.route('/assess_damage', methods=['POST'])
 def assess_damage():
-    global original_image, simulated_image, damage_statistics
+    if 'original_image' not in request.files or 'simulated_image' not in request.files:
+        return jsonify({'error': 'Both original and simulated images are required'}), 400
+
+    original_file = request.files['original_image']
+    simulated_file = request.files['simulated_image']
+
+    # 读取原始图像和模拟图像
+    original_image = cv2.imdecode(np.frombuffer(original_file.read(), np.uint8), cv2.IMREAD_COLOR)
+    simulated_image = cv2.imdecode(np.frombuffer(simulated_file.read(), np.uint8), cv2.IMREAD_COLOR)
+
     if original_image is None or simulated_image is None:
-        return jsonify({'error': 'No images to assess'}), 400
+        return jsonify({'error': 'Failed to decode images'}), 400
 
     # 执行毁伤评估
     damage_levels, diff_image = damage_assessment(original_image, simulated_image)
@@ -84,8 +103,11 @@ def assess_damage():
     _, buffer = cv2.imencode('.png', result_image)
     img_byte_arr = BytesIO(buffer)
 
-    # 发送图像
-    return send_file(img_byte_arr, mimetype='image/png')
+    # 发送图像和统计数据
+    return jsonify({
+        'image': base64.b64encode(img_byte_arr.getvalue()).decode('utf-8'),
+        'damage_statistics': damage_statistics
+    })
 
 @app.route('/get_damage_statistics', methods=['GET'])
 def get_damage_statistics():
