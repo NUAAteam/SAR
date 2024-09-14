@@ -1,0 +1,32 @@
+server {
+    listen 80;
+    listen 443 ssl;
+    server_name nuaasar.xyz www.nuaasar.xyz;
+
+    ssl_certificate /etc/letsencrypt/live/nuaasar.xyz/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/nuaasar.xyz/privkey.pem;
+
+    client_max_body_size 20M;  # 或者更大，根据您的需求
+
+    root /home/ubuntu/SAR/week6/frontend;
+    index html/index.html;
+
+    # 添加 Cloudflare 真实 IP 头
+    real_ip_header CF-Connecting-IP;
+
+    location / {
+        try_files $uri $uri/ /html/$uri /html/$uri.html @proxy;
+    }
+
+    location @proxy {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location ~ \.(css|js|png|jpg|jpeg|gif|ico)$ {
+        try_files $uri =404;
+    }
+}
