@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 设置变量
-REPO_PATH="~/SAR"
+REPO_PATH="$HOME/SAR"
 NGINX_CONF="/etc/nginx/sites-available/nuaasar.xyz"
 SSL_PATH="/etc/letsencrypt/live/nuaasar.xyz"
 SERVICE_FILE="/etc/systemd/system/nuaasar.service"
@@ -18,9 +18,10 @@ source venv/bin/activate
 # 安装依赖
 pip install -r requirements.txt
 
-# 复制 Nginx 配置
+# 复制并修改 Nginx 配置
 sudo cp $REPO_PATH/deploy/configs/nginx/nginx.conf /etc/nginx/
 sudo cp $REPO_PATH/deploy/configs/nginx/nuaasar.xyz $NGINX_CONF
+sudo sed -i "s|~/|$HOME/|g" $NGINX_CONF
 sudo ln -sf $NGINX_CONF /etc/nginx/sites-enabled/
 sudo rm -f /etc/nginx/sites-enabled/default
 
@@ -30,8 +31,9 @@ sudo cp $REPO_PATH/deploy/configs/ssl/fullchain.pem $SSL_PATH/
 sudo cp $REPO_PATH/deploy/configs/ssl/chain.pem $SSL_PATH/
 sudo cp $REPO_PATH/deploy/configs/ssl/options-ssl-nginx.conf /etc/letsencrypt/
 
-# 复制 systemd 服务文件
+# 复制并修改 systemd 服务文件
 sudo cp $REPO_PATH/deploy/configs/systemd/nuaasar.service $SERVICE_FILE
+sudo sed -i "s|~/|$HOME/|g" $SERVICE_FILE
 
 # 重新加载 systemd，启动服务
 sudo systemctl daemon-reload

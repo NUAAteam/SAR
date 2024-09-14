@@ -5,9 +5,9 @@ After=network.target
 [Service]
 User=ubuntu
 Group=www-data
-WorkingDirectory=/home/ubuntu/SAR/week6/backend
-Environment="PATH=/home/ubuntu/SAR/week6/backend/venv/bin"
-ExecStart=/home/ubuntu/SAR/week6/backend/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:5000 app:app
+WorkingDirectory=~/SAR/week6/backend
+Environment="PATH=~/SAR/week6/backend/venv/bin"
+ExecStart=~/SAR/week6/backend/venv/bin/gunicorn --workers 3 --bind 127.0.0.1:5000 app:app
 
 [Install]
 WantedBy=multi-user.target
