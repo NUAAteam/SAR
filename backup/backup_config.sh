@@ -1,27 +1,24 @@
 #!/bin/bash
 
-# 放在~目录下运行
 # 设置变量
 REPO_PATH="$HOME/SAR"
 NGINX_CONF="/etc/nginx/sites-available/nuaasar.xyz"
-SSL_PATH="/etc/letsencrypt/live/nuaasar.xyz"
 SERVICE_FILE="/etc/systemd/system/nuaasar.service"
 
 # 进入仓库目录
 cd $REPO_PATH
 
 # 创建配置文件备份目录
-mkdir -p deploy/configs/{nginx,ssl,systemd}
+mkdir -p deploy/configs/{nginx,systemd}
 
 # 复制并修改 Nginx 配置
 sudo cp $NGINX_CONF deploy/configs/nginx/nuaasar.xyz
 sudo cp /etc/nginx/nginx.conf deploy/configs/nginx/
 sed -i 's|/home/ubuntu/|~/|g' deploy/configs/nginx/nuaasar.xyz
 
-# 复制 SSL 配置（不包括私钥）
-sudo cp $SSL_PATH/fullchain.pem deploy/configs/ssl/
-sudo cp $SSL_PATH/chain.pem deploy/configs/ssl/
-sudo cp /etc/letsencrypt/options-ssl-nginx.conf deploy/configs/ssl/
+# 从 Nginx 配置中移除 SSL 相关配置
+sed -i '/ssl_certificate/d' deploy/configs/nginx/nuaasar.xyz
+sed -i '/ssl_certificate_key/d' deploy/configs/nginx/nuaasar.xyz
 
 # 复制并修改 systemd 服务文件
 sudo cp $SERVICE_FILE deploy/configs/systemd/nuaasar.service

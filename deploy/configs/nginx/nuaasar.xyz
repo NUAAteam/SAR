@@ -3,8 +3,6 @@ server {
     listen 443 ssl;
     server_name nuaasar.xyz www.nuaasar.xyz;
 
-    ssl_certificate /etc/letsencrypt/live/nuaasar.xyz/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/nuaasar.xyz/privkey.pem;
 
     client_max_body_size 20M;  # 或者更大，根据您的需求
 

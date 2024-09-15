@@ -22,14 +22,13 @@ pip install -r requirements.txt
 sudo cp $REPO_PATH/deploy/configs/nginx/nginx.conf /etc/nginx/
 sudo cp $REPO_PATH/deploy/configs/nginx/nuaasar.xyz $NGINX_CONF
 sudo sed -i "s|~/|$HOME/|g" $NGINX_CONF
+
+# 注释掉 SSL 配置（因为我们还没有证书）
+sudo sed -i 's/^\(\s*ssl_certificate.*\)/#\1/' $NGINX_CONF
+sudo sed -i 's/^\(\s*ssl_certificate_key.*\)/#\1/' $NGINX_CONF
+
 sudo ln -sf $NGINX_CONF /etc/nginx/sites-enabled/
 sudo rm -f /etc/nginx/sites-enabled/default
-
-# 复制 SSL 配置
-sudo mkdir -p $SSL_PATH
-sudo cp $REPO_PATH/deploy/configs/ssl/fullchain.pem $SSL_PATH/
-sudo cp $REPO_PATH/deploy/configs/ssl/chain.pem $SSL_PATH/
-sudo cp $REPO_PATH/deploy/configs/ssl/options-ssl-nginx.conf /etc/letsencrypt/
 
 # 复制并修改 systemd 服务文件
 sudo cp $REPO_PATH/deploy/configs/systemd/nuaasar.service $SERVICE_FILE
@@ -43,6 +42,13 @@ sudo systemctl start nuaasar.service
 # 重启 Nginx
 sudo systemctl restart nginx
 
-echo "Deployment completed!"
-echo "Please ensure to set up SSL certificates using Certbot:"
-echo "sudo certbot --nginx -d nuaasar.xyz -d www.nuaasar.xyz"
+echo "Initial deployment completed!"
+echo "Now, let's set up SSL certificates using Certbot."
+
+# 运行 Certbot 获取新的 SSL 证书
+sudo certbot --nginx -d nuaasar.xyz -d www.nuaasar.xyz
+
+# 再次重启 Nginx 以应用新的 SSL 配置
+sudo systemctl restart nginx
+
+echo "Deployment and SSL setup completed!"
