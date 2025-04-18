@@ -1,0 +1,24 @@
+services:
+  backend:
+    image: python:3.10.10 # 或指定 Python 10 镜像
+    volumes:
+      - ./week6/backend:/app
+    working_dir: /app
+    command: python app.py
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+
+  web:
+    build:
+      context: ./deploy/nginx
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./week6/frontend:/var/www/html
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - backend
