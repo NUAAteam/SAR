@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		console.log("Sending coordinates:", selectedX, selectedY);
 
 		try {
-			const response = await fetch("/simulate", {
+			const response = await fetch("/api/simulate", {
 				method: "POST",
 				body: formData,
 			});
@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			"simulated.png"
 		);
 
-		fetch("/assess_damage", {
+		fetch("/api/assess_damage", {
 			method: "POST",
 			body: formData,
 		})
